@@ -1,160 +1,171 @@
 Level 0:
 -----------
-    I Bandit0 skal man forbinde til bandit.labs.overthewire.org med ssh på port 2220. Brugernavn er bandit0 og kodeord er ligeså bandit0. Det gøres da med
-        $ ssh bandit0@bandit.labs.overthewire.org -p 2220
-    herefter blive rman spurgt om kodeord og man indtaster blot "bandit0" og så er man logget ind.
+    In Bandit0 you are supposed ti connect to bandit.labs.overthewire.org using ssh on port 2220. The username is bandit0 and so is the password. Provided one has ssh installed, this is done in the terminal with
+        $ ssh bandit0@bandit.labs.overthewire.org -p 2220.
+    Notice the flag "-p" and the number "2220". The flag is used to tell ssh that a specific port is to be used and the subsequent number is the port to be used.    
+    After this is done, one is asked for the password, which as previously mentioned is "bandit0". Typing this in and hitting Enter then grants access.
 
 
 Level 0 -> Level 1:
 ----------------------
-    Kodeordet til bandit1 findes i filen "readme" i det directory man befinder sig i, når man gennemfører bandit0. Brug
+    Once in you have to find the password for the next level. That is the password for bandit1. It is allegedly in the file "readme" in the directory that you are in, once bandit0 has been completed. To check this use
+        $ ls
+    and the file "readme" is listed. Use
         $ cat readme
-    til at printe det. "cat" funktionen, der printer indholdet af en fil. Kodeordet er
-        NH2SXQwcBdpmTEzi3bvBHMM9H66vVXjL
-    
-    Det gælder generelt for bandit level x, at man logger ind på
-        $ banditx$bandit.labs.overthewire.org
-    på port 2220 med et kodeord, man har opnået i det tidligere level.
+    to print out the contents of the "readme"-file. The password is then printed out to your terminal. The contents read
+        NH2SXQwcBdpmTEzi3bvBHMM9H66vVXjL.
+
+    In general for the bandit levels, level <x> is accessed using
+        $ bandit<x>@bandit.labs.overthewire.org -p 2220
+    and the password from the previous level.
 
 
 Level 1 -> Level 2:
 ----------------------
-    Her er kodeordet til næste level i en fil kaldet "-".
-        $ cat -
-    virker ikke umiddelbart. Det er nok fordi, filnavnet er en special character. Ditto med
-        $ cat "-"
-    Dog virker
+    Here the password for the next level is in a file called "-".
+        $ cat '
+    does not work - probably because the filename is a special character. The same goes for
+        $ cat "-".
+    However, the command
         $ cat ./-
-    da hele fildestinationen her er givet til cat. Denne kommando giver kodeordet
-        rRGizSaX8Mk1RTb1CNQoXTcYZWU6lgzi
+    does work, since the whole path to the file is being specified, yielding the password
+        rRGizSaX8Mk1RTb1CNQoXTcYZWU6lgzi.
 
 
 Level 2 -> Level 3:
 ----------------------
-    Kodeordet til level 3 er i en fil kaldet "spaces in this filename". Linux-terminalen kan normalt ikke håndtere mellemrum, da den tror der er tale om en ny kommando, hver gang noget kommer efter et mellemrum. Løsningen er at sætte filnavnet i citationstegn:
+    The password for level 3 is in a file called "spaces in this filename". Under normal circumstances the Linux terminal cannot handle spaces in a name, since it then assumes that the thing after the space is a new command entirely. The solution is then to put the file name in quotation marks:
         $ cat "spaces in this filename"
-    giver da kodeordet
-        aBZ0W5EmUfAf7kHTQeOwd8bauFJ2lAiG
+    then yields the password
+        aBZ0W5EmUfAf7kHTQeOwd8bauFJ2lAiG.
 
 
 Level 3 -> Level 4:
 ----------------------
-    Kodeordet er denne gang gemt i en skjult fil i mappen "inhere".
+    This time the password is in a hidden file inside the folder "inhere". Usually, one would use
         $ ls
-    bruges jo normalt til at liste filer i en mappe. Efter at have gået ind i mappen viser denne kommando dog intet, hvilket er forventeligt, da der er tale om en skjult fil (en fil, der starter med et punktum). Man skal i stedet bruge
+    to list the files in a directory, but using this inside the "inhere" folder yields nothing as expected, since the file that is looked for is a hidden file. Therefore
         $ ls -a
-    for at vise alle filer i en mappe. Filen heddder ".hidden" og
+    is used, since the flag "-a" makes ls also list hidden files, which can be recognised by having their filename start with "." (a full stop). (obviously, one would first have to change directory to the aforementioned folder using
+        $ cd inhere.
+    "cd" is the Linux command used to change directory. It is also a shorthand for exactly that)
+    The hidden file that is being looked for is listed and is called ".hidden". Using
         $ cat .hidden
-    giver da kodeordet
+    then prints out the password
         2EW7BBsr6aMMoJ2HjW067dm8EgX26xNe
 
 
 Level 4 -> Level 5:
 ----------------------
-    Filen med kodeordet er igen inde i en mappe, de rhedder "inhere". Angiveligt er der kun én menneskeligt læselig fil herinde, som indeholder kodeordet. De andre filer gør åbenbart noget underligt ved layout i terminalen. Det kan omgøres med
+    The file with the password is again inside a folder called "inhere". Allegedly there is only one human-readable file in this directory, which is also the one that contains the password for the next level. Trying to read the other files in the directory does something weird with the terminal, but this can easily be undone using
         $ reset
-    men er ikke strengt nødvendigt. Kodeordet er i øvrigt i filen "-file07", så
+    but is not strictly necessary. Through trial and error the file "-file07" seems to be the one that is sought after. Using
         $ cat ./-file07
-    giver kodeordet
-        lrIWWI6bB37kxfiCQZqUdOIYfr6eEeqR
+    then yields the password
+        lrIWWI6bB37kxfiCQZqUdOIYfr6eEeqR.
 
 
 Level 5 -> Level 6:
 ----------------------
-    Her er filen opbevaret et sted i mappen "inhere". Det oplyses, at filen er læselig for et menneske, har størrelse 1033 bytes og er ikke en kørbar fil. I mappen er en masse undermapper ved navn "maybehere00"..."maybehere19".
+    This time the file containing the password is somewhere inside the folder "inhere" again. Allegedly the file is human-readable, has size 1033 bytes and is not an executable file. Something worth of notice is that the folder "inhere" contains a lot of subfolders called "maybehere00"..."maybehere19".
         $ find . -type f ! -executable -size 1033c
-    finder den ønskede fil. "find" er funktionen, der bruges. "." angiver, at søgningen starter i den nuværende mappe. "-type" give med en parameter (i det her tilfælde "f") og angiver typen på filen (i det her tilfælde en almindelig fil). "!" bruges til at negere det efterfølgende udtry, som er "-executable", som angiver at filen, der søges efter er en kørbar fil. "! -executable" giver da til sammen, at der søges en ikke-kørbar fil. "-size" bruges til at angive størrelsen på den ønskede fil. "1033c" angiver størrelsen til at være 1033 bytes ("c" bruges her om bytes). "-size 1033c" angiver da, at den søgte fil har størrelse 1033 bytes.
-    Den eneste fil, der lever op til de ønskede krav er filen
-        ./maybehere07/.file2
-    og
-        $ cat ./maybehere07/.file2
-    giver da kodeordet
-        P4L4vucdmLnm8I7Vl7jG1ApGSfjYKqJU
-    (bemærk dog at filen indeholder en masse white space)
+    should find the wanted file in question. The "find" function is the native Linux function that finds a specific file - or at least the ones that matches the parameters that have been specified. "." tells "find" that the search is to start in the current folder, "-type" is a flag that is followed by some parameter that specifies which type of file that is being looked for (in this case "f" for a regular file). "!" is used in order to negate the following expression, "-executable" which specifies that the file in quetion is an executable file (so "! -executable" means that the file in question is not an executable). "-size" is used to specify the size of the file in question and is followed by the parameter "1033c", which specifies that the wanted file is of size 1033 bytes ("c" for bytes).
+    The only file that lives up to all the specifications above is the file
+        ./maybehere07/.file2,
+    so using
+        $ cat maybehere07/.file2
+    (or if the directory has not been changed since connecting:
+        $ cat inhere/maybehere07/.file2)
+    then yields the password
+        P4L4vucdmLnm8I7Vl7jG1ApGSfjYKqJU.
+    (Do however notice, the file contains a lot of whitespace.)
 
 
 Level 6 -> Level 7:
 ----------------------
-    Den eneste info der nu gives er, at filen er opbevaret et eller andet sted på ssh-serveren, er ejet af brugeren bandit7, er ejet af gruppen bandit6 og har størrelse 33 bytes. Først skiftes til rodmappen på serveren med
-        $ cd /
-        og kommandoen
+    The only info given about the file containing the password now is that it is stored somewhere on the ssh server, is owned by the user "bandit7", is owned by the group "bandit6" and has size 33 bytes. First of all, let's change directory to the root folder of the server using
+        $ cd /.
+    Now the command
         $ find . -size 33c -user bandit7 -group bandit6
-    giver da en uoverskuelig liste af filer, hvoraf de fleste giver har "Permission denied" på sig i sit resultat. "-user" og "-group" bruges til at finde en fil der henholdsvist er ejet af en specifik bruger og af en specifik gruppe. Den ønskede fil findes dog til at være
-        ./var/lib/dpkg/info/bandit7.password
-    med
-        find . -size 33c -user bandit7 -group bandit6 2>/dev/null
-    hvor "2>dev/null" angiver at alle resultater, der returneres med standard fejlkode (fejlkode 2) smides over i dev/null (altså, at disse resultater ikke vises).
-        $ cat ./var/lib/dpkg/info/bandit7.password
-    giver da kodeordet
-        z7WtoNQU2XfjmMtWA8u5rN4vzqu4v99S
+    can be used and it gives a large and unmanageable list of files, most of which has "Permission denied" written next to them.
+    The "-user" flag is given above and is used to specify the user that owns the file being searched for. It is used with the parameter "bandit7", meaning that the file being searched for is owned by the user "bandit7". Likewise the flag "-group" specifies the group that own the file and is used with the parameter "bandit6" to signify, that the group "bandit6" owns the file.
+    The problem of making this long list of found files a bit more manageable is done by taking all the files for which permission is denied and sorting them out of the results. The "Permission denied" comes because of a standard error code - more specifically error code 2. By appending "2>dev/null", all results that are returned with standard error code 2 is sent to dev/null (aka. not shown). Thus the file in question is found using
+        $ find . -size 33c -user bandit7 -group bandit6 2>/dev/null
+    which yields the file
+        ./var/lib/dpkg/info/bandit7.password.
+    Now
+        $ cat var/lib/dpkg/info/bandit7.password
+    yields the password
+        z7WtoNQU2XfjmMtWA8u5rN4vzqu4v99S.
 
 
 Level 7 -> Level 8:
 ----------------------
-    Denne gang er kodeordet opbevaret i filen "data.txt" ved siden af ordet "millionth".
+    This time the password is stored inside the file "data.txt" next to the word "millionth".
         $ cat data.txt
-    giver en ualmindeligt stor liste af ord og mulige kodeord ved siden af dem. Hver indgang lader til at slutte med en newline.
+    gives a large and unmanageable list of word and possible passwords next to them. One thing of note is that each and every word- and possible password combination ends with a newline character. This means that what is sought is actually just a specific line in the file.
         $ grep -F millionth data.txt
-    giver den ønskede linie. "grep" er en kommando, der bruges til at finde en specifik linie tekst i en given fil (og printe teksten fra denne linie). "-F" angiver at det der skal mathes på er et specifikt ord - dette argument efterfølges derfor af ordet "millionth". Som argument nr. 2 gives filen hvori grep skal søge efter linien der matcher kriteriet fra det første argument. (Hvis der ikke er noget første argument, så matcher alle linier som standard.) Den returnerede tekst er da
+    can then be used. "grep" is a native Linux command that is used to find a specific line of text in a given file and print it to the terminal. The flag "-F" is used to signify that a specific word is sought (here "word" actually just means a fixed string) and so using it with the parameter "millionth" specifies that the line sought has the word "millionth" in it. As a second argument for grep, the file that is to be searched is specified here; "data.txt". The returned line of text is then
         millionth	TESKZC0XvTetK0S9xNwm25STk5iWrBvP
-    hvoraf kodeordet
-        TESKZC0XvTetK0S9xNwm25STk5iWrBvP
-    kan aflæses.
+    from which it can be seen that the password for the next level is
+        TESKZC0XvTetK0S9xNwm25STk5iWrBvP.
 
 
 Levle 8 -> Level 9:
 ----------------------
-    I dette level er kodeordet i filen "data.txt", som den eneste linie, der ikke er gengivet. Filen består af en masse linier med mulige kodeord. Ret så uoverskueligt.
+    In this level the password is again inside a file called "data.txt". It is stored as the only line in this file that is not repeated.
+        $ cat data.txt
+    shows that the file contains a lot of lines of potential passwords. Again this is quite unmanageable. The command
         $ uniq -u data.txt
-    Giver blot det samme output. "uniq" er en kommando til at filtrere tilstødende matchende linier fra input. "-u" bruges til at finde unikke linier. Problemet her er, at linierne med gentagelserne ikke er tilstødende. Derfor bruges
-        $ cat data.txt | sort | uniq -u
-    til finde linien
+    gives the same output. The "uniq" command is used to filter adjacent matching lines from the input, the "-u" flag specifies that unique lines are to be considered and the second argument is just the file that is to be searched. In order to solve this challenge, the lines need to be read, sorted and then input into "uniq -u". This is done using
+        $ cat data.txt | sort | uniq -u.
+    "cat" first reads the file, then the lines are sorted using the command "sort" and then the wanted line is found as described above. The vertical lines in this command terminal input is used to take the output of the command on the left and input it into the command on the right. This works because all the lines that are repeated are now adjacent, yielding the line
         EN632PlfYiZbn3PhVK3XOGSlNInNE00t
-    som må være det ønskede kodeord. Først tages al teksten ud af filen, med "cat" og "|" specificerer, at outputtet ledes over i en anden funktion. Denne funktion er "sort", som sorterer linierne af tekst. Dette ledes derefter over i "uniq -u", som på grund af, at alle ens linier nu er tilstødende, giver den eneste linie, der ikke har en tilstødende linie, der er magen til sig selv.
+    which must then be the password that is sought after.
 
 
 Level 9 -> Level 10:
 -----------------------
-    Kodeordet til level 10 er opbevaret i en fil kaldet "data.txt". Linien med kodeordet er én af de få menneskeligt læselige linier og er forudgået af flere lighedstegn. Filen er meget lang og indeholder flere linier end det er praktisk at gennemsøge manuelt. Hvis man prøver bare at køre
+    The password for this level is again contained in a file called "data.txt". The line with the password is one of the few lines that are human-readable and is preceded by several equal signs. It is of noteworthy importance that the file contains more lines than is feasible to manually search through. Trying
         $ grep === data.txt
-    (som ellers burde virke), så får man
-        grep: data.txt: binary file matches
-    så det er altså ikke bare en række tegn i filen, men en binær fil. Med
+    yields
+        grep: data.txt: binary file matches,
+    so the file is not just a file of text containing several lines, but is a binary file. Here "grep" is used with the first argument of "===", so as to make sure that only lines containing at least 3 equal signs are matched and printed out to the terminal.
         $ strings data.txt
-    printes dog alle ASCII-strenge i filen.
+    is the command used to print all ASCII strings in the file, so
         $ string data.txt | grep ===
-    får man dog
+    is used to take these strings and sent them over to the previously used "grep" command, which should be able to find the line in question. The output is
         x]T========== theG)"
         ========== passwordk^
         ========== is
         ========== G7w8LIi6J3kTb8A7j9LgrywtEUlyyp6s
-    hvilket giver kodeordet
-        G7w8LIi6J3kTb8A7j9LgrywtEUlyyp6s
+    and the password can then be read from this as
+        G7w8LIi6J3kTb8A7j9LgrywtEUlyyp6s.
 
 
 Level 10 -> Level 11
 -----------------------
-    Denne gang er kodeordet i filen "data.txt", som er indkodet i base 64. Heldigvis har linux en indbygget kommando til at håndtere den slags.
+    Again the password is inside the file "data.txt", but this time the file is encoded in base 64.
         $ base64 -d data.txt
-    er kommandoen, der skal bruges. "base64" er kommandoen, flaget "-d" angiver at der ønskes afkodning og det sidste argument er filen, der skal afkodes. Udførslen af ovenstående giver
+    is the command to use. "base64" is the command used to do stuff with base 64 numbers, the flag "-d" is used to specify that decoding is wanted and the second argument is just the file that contains what is to be decoded. Using the command above gives
         The password is 6zPeziLdR2RKNdNYFNb6nVCKzphlXHBM
-    og det er derfor ikke helt svært at finde ud af, at det ønskede kodeord er
-        6zPeziLdR2RKNdNYFNb6nVCKzphlXHBM
+    and so the password is then
+        6zPeziLdR2RKNdNYFNb6nVCKzphlXHBM.
 
 
 Level 11 -> Level 12
 -----------------------
-    I dette level er kodeordet i filen "data.txt", men alle bogstaver er roteret med 13. Det vil altså sige, kryptosystemet Rot13 er anvendt på alle bogstaverne. Rot13 er bare et specialtilfælde af cæsarcifferet, hvor nøglen er 13.
+    Again the password is inside a file called "data.txt", but this time all of the letters are rotated by 13. This means that the cryptosystem Rot13 has been used (https://en.wikipedia.org/wiki/ROT13) on the letters - which is actually just a special case of the Caesar Cipher using 13 as a key (https://en.wikipedia.org/wiki/Caesar_cipher).
         $ cat data.txt
-    giver
-        Gur cnffjbeq vf WIAOOSFzMjXXBC0KoSKBbJ8puQm5lIEi
-    Afkodningen kan gøres i hånden, men jeg brugte en online implementation. Den gav
+    gives
+        Gur cnffjbeq vf WIAOOSFzMjXXBC0KoSKBbJ8puQm5lIEi.
+    Decoding could be done by hand and it is also not hard to implement a small script that could do the decoding. I took the easy route and used an online tool (https://www.dcode.fr/rot-13-cipher) to decode yielding
         The password is JVNBBFSmZwKKOP0XbFXOoW8chDz5yVRv
-    hvoraf kodeordet aflæses til at være
-        JVNBBFSmZwKKOP0XbFXOoW8chDz5yVRv
+    from which the password can be seen to be
+        JVNBBFSmZwKKOP0XbFXOoW8chDz5yVRv.
 
 
 Level 12 -> Level 13
 -----------------------
-    Kodeordet er denne gang igen i en fil kaldet "data.txt". Denne fil er et såkaldt hexdump. Det foreslåes, at lave en mappe inde i /tmp-mappen, kopiere filen derind og navngive den om.
+    The password is once again in a file called "data.txt". This file is a so-called hexdump. It is suggeested that one creates a folder inside of the /tmp folder, copy the file into there and rename it.
 
