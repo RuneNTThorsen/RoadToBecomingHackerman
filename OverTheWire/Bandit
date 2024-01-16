@@ -1,6 +1,6 @@
 Level 0:
 -----------
-    In Bandit0 you are supposed ti connect to bandit.labs.overthewire.org using ssh on port 2220. The username is bandit0 and so is the password. Provided one has ssh installed, this is done in the terminal with
+    In Bandit0 you are supposed to connect to bandit.labs.overthewire.org using ssh on port 2220. The username is bandit0 and so is the password. Provided one has ssh installed, this is done in the terminal with
         $ ssh bandit0@bandit.labs.overthewire.org -p 2220.
     Notice the flag "-p" and the number "2220". The flag is used to tell ssh that a specific port is to be used and the subsequent number is the port to be used.    
     After this is done, one is asked for the password, which as previously mentioned is "bandit0". Typing this in and hitting Enter then grants access.
