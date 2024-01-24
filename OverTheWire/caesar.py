@@ -1,0 +1,87 @@
+import sys
+
+
+#Alphabets for the Caesar cipher. Note that numbers are not encrypted!
+small_alphabet = "abcdefghijklmnopqrstuvwxyz"
+large_alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+#Find the length of the alphabet
+alphabet_length = len(small_alphabet)
+
+
+def gen_enc_dec_letter(alphabet, alphabet_index, letter):
+    """Is used to encrypt or decryct a single letter.
+    
+    alphabet_index is the index of the letter that is to be returned,
+    letter is the letter that is to be encrypted/decrypted."""
+    #Start by testing for the edge case, that the letter is not in the alphabet. If it is, then proceed as normal.
+    if letter not in small_alphabet and letter not in large_alphabet:
+        return letter
+    return alphabet[alphabet_index]
+
+
+def encrypt(key, message):
+    """Encryption function, that encrypts a message using the Caesar cipher.
+
+    key is the key to be used for encryption and
+    message is the message to be encrypted."""
+    #Make string to store the result in
+    result = ""
+
+    #Iteratively find the alphabet index from the key and add the resulting letter to the result
+    for letter in message:
+        if letter in small_alphabet:
+            alphabet_index = (small_alphabet.find(letter) + key) % alphabet_length
+            result = result + gen_enc_dec_letter(small_alphabet, alphabet_index, letter)
+        else:
+            alphabet_index = (large_alphabet.find(letter) + key) % alphabet_length
+            result = result + gen_enc_dec_letter(large_alphabet, alphabet_index, letter)
+
+    #Return the result
+    return result
+
+
+def decrypt(key, ciphertext):
+    """Decryption function, that decrypts a message using the Caesar cipher.
+
+    key is the key to be used for decryption and
+    ciphertext is the ciphertext to be decrypted."""
+    #Make string to store the result in
+    result = ""
+
+    #Iteratively find the alphabet index from the key and add the resulting letter to the result
+    for letter in ciphertext:
+        if letter in small_alphabet:
+            alphabet_index = (small_alphabet.find(letter) - key) % alphabet_length
+            result = result + gen_enc_dec_letter(small_alphabet, alphabet_index, letter)
+        else:
+            alphabet_index = (large_alphabet.find(letter) - key) % alphabet_length
+            result = result + gen_enc_dec_letter(large_alphabet, alphabet_index, letter)
+
+    #Return the result
+    return result
+
+
+def main():
+    #Start off by testing if the number of required arguments are as should be
+    if len(sys.argv) != 4:
+        print("Wrong number of arguments!\nThe correct number of arguments is 4!\n\nThe program is intended to be used as such:\npython caesar.py <character string> <key> <mode>\n\nThe character string can be any character string (remember to put it in quoation marks), the key has to be a positive integer either 0 or above and the mode must be either \"e\" (for encryption mode) or \"d\" (for decryption mode)")
+    #Test if the mode is selected correctly
+    if not ((sys.argv[3] == "e") or (sys.argv[3] == "d")):
+        raise Exception("The mode must be either \"e\" (for encryption mode) or \"d\" (for decryption mode).")
+
+    #The key might be big, so to save computation it is once and for all computed here. Also automatically tests if the key is an integer
+    key = int(sys.argv[2]) % alphabet_length
+
+    #Select what to do based on the input to the program
+    if sys.argv[3] == "e":
+        print("\nEncryption mode. Your encrypted text is:")
+        result = encrypt(key, sys.argv[1])
+    else:
+        print("\nDecryption mode. Your decrypted text is:")
+        result = decrypt(key, sys.argv[1])
+
+    print(result)
+    return
+
+if __name__ == "__main__":
+    main()
