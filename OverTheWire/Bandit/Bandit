@@ -164,7 +164,7 @@ Level 11 -> Level 12
     from which the password can be seen to be
         JVNBBFSmZwKKOP0XbFXOoW8chDz5yVRv.
 
-    Okay, I actually did it properly and made a small program that does the decrypting (and encrypting). It is called caesar.py and is used by doing
+    Okay, I actually did it properly and made a small script that does the decrypting (and encrypting). It is called caesar.py and is used by doing
         python caesar.py "Gur cnffjbeq vf WIAOOSFzMjXXBC0KoSKBbJ8puQm5lIEi" 13 d
     and returns
         The password is JVNBBFSmZwKKOP0XbFXOoW8chDz5yVRv.
