@@ -1,3 +1,6 @@
+"""This script is used for encrypting/decrypting text using the Caesar cipher.\nThe script is intended to be used as such:\npython caesar.py <character string> <key> <mode>\n\nThe character string can be any character string (remember to put it in quoation marks), the key has to be a positive integer either 0 or above and the mode must be either \"e\" (for encryption mode) or \"d\" (for decryption mode).\nIf any of the abovementioned is not followed, an exception will be raised."""
+
+
 import sys
 
 
@@ -62,9 +65,12 @@ def decrypt(key, ciphertext):
 
 
 def main():
+    """Main function used to encrypt/decrypt text.
+
+    Throws exceptions if wrong number of arguments are applied (should be 4 including the name of the script), if key is not an integer and if the mode selected is not either \"e\" (for encryption) or \"d\" (for decryption)."""
     #Start off by testing if the number of required arguments are as should be
     if len(sys.argv) != 4:
-        print("Wrong number of arguments!\nThe correct number of arguments is 4!\n\nThe program is intended to be used as such:\npython caesar.py <character string> <key> <mode>\n\nThe character string can be any character string (remember to put it in quoation marks), the key has to be a positive integer either 0 or above and the mode must be either \"e\" (for encryption mode) or \"d\" (for decryption mode)")
+        print("Wrong number of arguments!\nThe correct number of arguments is 4!\n\nThe script is intended to be used as such:\npython caesar.py <character string> <key> <mode>\n\nThe character string can be any character string (remember to put it in quoation marks), the key has to be a positive integer either 0 or above and the mode must be either \"e\" (for encryption mode) or \"d\" (for decryption mode)")
     #Test if the mode is selected correctly
     if not ((sys.argv[3] == "e") or (sys.argv[3] == "d")):
         raise Exception("The mode must be either \"e\" (for encryption mode) or \"d\" (for decryption mode).")
