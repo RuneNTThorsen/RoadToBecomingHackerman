@@ -16,8 +16,12 @@ def gen_enc_dec_letter(alphabet, alphabet_index, letter):
     
     alphabet_index is the index of the letter that is to be returned,
     letter is the letter that is to be encrypted/decrypted."""
-    #Start by testing for the edge case, that the letter is not in the alphabet. If it is, then proceed as normal.
-    if letter not in small_alphabet and letter not in large_alphabet:
+    #Store global variables locally, to increase performance
+    smalph = small_alphabet
+    lalph = large_alphabet
+    #Start by testing for the edge case, that the letter is not in the alphabet. If
+    #it is, then proceed as normal.
+    if letter not in smalph and letter not in lalph:
         return letter
     return alphabet[alphabet_index]
 
@@ -27,17 +31,22 @@ def encrypt(key, message):
 
     key is the key to be used for encryption and
     message is the message to be encrypted."""
+    #Store global variables locally, to increase performance
+    smalph = small_alphabet
+    lalph = large_alphabet
+    length = alphabet_length
     #Make string to store the result in
     result = ""
 
-    #Iteratively find the alphabet index from the key and add the resulting letter to the result
+    #Iteratively find the alphabet index from the key and add the resulting letter
+    #to the result
     for letter in message:
-        if letter in small_alphabet:
-            alphabet_index = (small_alphabet.find(letter) + key) % alphabet_length
-            result = result + gen_enc_dec_letter(small_alphabet, alphabet_index, letter)
+        if letter in smalph:
+            alphabet_index = (smalph.find(letter) + key) % length
+            result = result + gen_enc_dec_letter(smalph, alphabet_index, letter)
         else:
-            alphabet_index = (large_alphabet.find(letter) + key) % alphabet_length
-            result = result + gen_enc_dec_letter(large_alphabet, alphabet_index, letter)
+            alphabet_index = (lalph.find(letter) + key) % length
+            result = result + gen_enc_dec_letter(lalph, alphabet_index, letter)
 
     #Return the result
     return result
@@ -48,17 +57,22 @@ def decrypt(key, ciphertext):
 
     key is the key to be used for decryption and
     ciphertext is the ciphertext to be decrypted."""
+    #Store global variables locally, to increase performance
+    smalph = small_alphabet
+    lalph = large_alphabet
+    length = alphabet_length
     #Make string to store the result in
     result = ""
 
-    #Iteratively find the alphabet index from the key and add the resulting letter to the result
+    #Iteratively find the alphabet index from the key and add the resulting letter
+    #to the result
     for letter in ciphertext:
-        if letter in small_alphabet:
-            alphabet_index = (small_alphabet.find(letter) - key) % alphabet_length
-            result = result + gen_enc_dec_letter(small_alphabet, alphabet_index, letter)
+        if letter in smalph:
+            alphabet_index = (smalph.find(letter) - key) % length
+            result = result + gen_enc_dec_letter(smalph, alphabet_index, letter)
         else:
-            alphabet_index = (large_alphabet.find(letter) - key) % alphabet_length
-            result = result + gen_enc_dec_letter(large_alphabet, alphabet_index, letter)
+            alphabet_index = (lalph.find(letter) - key) % length
+            result = result + gen_enc_dec_letter(lalph, alphabet_index, letter)
 
     #Return the result
     return result
@@ -75,8 +89,11 @@ def main():
     if not ((sys.argv[3] == "e") or (sys.argv[3] == "d")):
         raise Exception("The mode must be either \"e\" (for encryption mode) or \"d\" (for decryption mode).")
 
-    #The key might be big, so to save computation it is once and for all computed here. Also automatically tests if the key is an integer
-    key = int(sys.argv[2]) % alphabet_length
+    #Store global variable locally, to increase performance
+    length = alphabet_length
+    #The key might be big, so to save computation it is once and for all computed
+    #here. Also automatically tests if the key is an integer
+    key = int(sys.argv[2]) % length
 
     #Select what to do based on the input to the program
     if sys.argv[3] == "e":
