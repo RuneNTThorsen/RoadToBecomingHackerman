@@ -172,5 +172,80 @@ Level 11 -> Level 12
 
 Level 12 -> Level 13
 -----------------------
-    The password is once again in a file called "data.txt". This file is a so-called hexdump. It is suggeested that one creates a folder inside of the /tmp folder, copy the file into there and rename it.
+    The password is once again in a file called "data.txt". This file is a so-called hexdump. It is suggeested that one creates a folder inside of the /tmp folder, copy the file into there and rename it. At each level, some hints are given as to which topics one might look into. One of these is "xxd". This is used to make a hexdump or do the reverse. The "-r" flag is used for reversing. So start by making a directory and moving the file as instructed:
+        $ mkdir /tmp/<your-name>
+        $ cp data.txt /tmp/<your-name>/data.txt
+    and changing to this directory
+        $ cd /tmp/<your-name>
+    Now let's try reversing and saving whatever gets reversed.
+        $ cat data.txt | xxd -r > data
+    Another hint is the command "file"; used to determine the file type of a file.
+        $ file data
+    gives
+        data: gzip compressed data, was "data2.bin", last modified: Thu Oct  5 06:19:20 2023, max compression, from Unix, original size modulo 2^32 573.
+    Supposing that it is then a ".gz"-file, the file is then renamed as such:
+        $ mv data data2.gz
+    "gzip" is also a linux command that can be used to compress/decompress files. Decompression is done using the "-d"-flag.
+        $ gzip -d data2.gz
+    then decompresses and saves the decompressed file as "data2".
+        $ file data2
+    gives
+        data2: bzip2 compressed data, block size = 900k.
+    "bzip2" is another file compression/decompression program. The file ending this time is ".bz2".
+        $ mv data2 data3.bz2
+        $ bzip2 -d data3.bz2
+    then gives the file
+        data3.
+    Using
+        $ file data3
+    gives
+        data3: gzip compressed data, was "data4.bin", last modified: Thu Oct  5 06:19:20 2023, max compression, from Unix, original size modulo 2^32 20480
+    and so we repeat the process for a gzip archive again.
+        $ file data4
+    now gives
+        data4: POSIX tar archive (GNU).
+    "tar" is another linux command used to make archives.
+        $ tar -xvf data5
+    then makes the file "data5.bin". The flags "x", "v" and "f" specifies extraction, verbose and file respectively. This is then renamed to "data6.bin" and this file gives the same output again, so unpacking is done again. It seems that renaming and unpacking and seeng what the file contents are has to be done a few times. I have already shown how the tools used. Unless something new comes up, I will just state here, that decompressing and unpacking is done until i reach the end.
+    Finally after going through the steps over and over, a "data9" is reached, that is ASCII text.
+        $ cat data9
+    then gives
+        The password is wbWdlBxEir4CaE8LaPhauuOo6pwRmrDw
+    from which it can be seen that the password is
+        wbWdlBxEir4CaE8LaPhauuOo6pwRmrDw.
+
+    It was suggested to me, that binwalk might have been able to do this task more easily. Perhaps. I think learning about tar, bzip2 and gzip is good though and I doubt, I would have permission to install binwalk on the machine that I am connected to through ssh. The contents of the original data might be copied to my own machine though, but this is not a route that I will explore.
+
+
+
+Level 13 -> Level 14
+-----------------------
+    The password for the next level is stored in /etc/bandit_pass/bandit14. It can only be read by the user bandit14 though. As for this level, one does not get a new password, but instead a private ssh-key (in the home folder - called "sshkey.private"), which will be used to log in to the next level. A hint is given: localhost is a hostname that refers to the machine you are working on.
+        $ ls
+    gives
+        sshkey.private.
+        $ cat sshkey.private
+    then prints out the ssh-key. It is an RSA key. That is pretty standard. It is then copied into a file "bandit14" in the ~/.ssh directory. In this directory there is also a "config"-file. The key has to be added to this.The following then has to be added to this file:
+        Host *.labs.overthewire.org
+            user bandit14
+            IdentityFile ~/.ssh/bandit14
+    and ownership has to be taken of the file:
+        $ chown 600 ~/bandit14
+    and the key can now be used to log in to the bandit 14 user (the terminal program maybe has to be restarted).
+        $ cat /etc/bandit_pass/bandit14
+    now gives
+        fGrHPx402xGC7U7rXKDaxiWFTOiF0ENq
+    which must then be the password for the next level.
+    The changes made to the config file can then be commented out using "#":
+        #Host *.labs.overthewire.org
+            #user bandit14
+            #IdentityFile ~/.ssh/bandit14
+    and they shouldn't be used in the future then.
+
+
+Level 14 -> Level 15
+-----------------------
+    The password for the next level can be retrieved by submitting the password of the current level to port 30000 on localhost.
+        
+
 
