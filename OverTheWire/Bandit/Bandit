@@ -375,6 +375,124 @@ Level 17 -> Level 18
     to
         hga5tuuCLF6fFzUpnagiMN8ssu9LFrdg.
     Again things are commented out in the SSH config file, in the same way as earlier.
+
+
+Level 18 -> Level 19
+-----------------------
+    A quick note from the previous challenge here: if one has solved Level 17 -> Level 18 and see "Byebye !" when trying to log into bandit18, this is related to the next level, bandit19.
+    Anyways this time the password for the next level is stored in a file called "readme" in the home directory. The problem now is that someone has modified the .bashrc file to log one out, when logging in using SSH and that is exactly what happens. "Byebye !" is printed and one is logged out. Anyway the ".bashrc" file is loaded each and every time one opens a terminal - such as logging in through SSH. But SSH is not actually just for logging into a remote machine. It is also used to send commands.
+        $ ssh bandit18@bandit.labs.overthewire.org -p 2220 cat readme
+    is then the command to be used. This sends the command "cat readme" to the server. One is still prompted for a password, but pasting it in from the results of the previous challenge and hitting Enter then gives:
+        awhqfNnAbc1naukrpqDYcF95h7HoMTrC
+    before one is once again logged out. This must then be the password for the next challenge.
+
+    What the note from the previous challenge was for, I am not sure of.
+
+
+Level 19 -> Level 20
+-----------------------
+    This time there is a setuid binary in the homefolder (a file that can set the user id to the owner of the binary and thus one is able to act as if one is that other user). Executing it without arguments should show how to use it.The password this time is found in the /etc/bandit_pass directory, but one must allegedly use the setuid binary first (probably in order to be able to read it).
+    Logging in and using
+        $ ls
+    reveals a file:
+        bandit20-do
+    and executing it with
+        $ ./bandit20-do
+    prints
+        Run a command as another user.
+            Example: ./bandit20-do id.
+    This above example actually gives the output
+        uid=11019(bandit19) gid=11019(bandit19) euid=11020(bandit20) groups=11019(bandit19)
+    which seems to suggest that the user bandit19 is given an extra user id as bandit20, when making use of the file(?).
+    Now
+        $ ./bandit20-do ls /etc/bandit_pass
+    prints out the contents of the directory /etc/bandit_pass. One of the files is called "bandit20". Guess it is the one wanted, so
+        $ ./bandit20-do cat /etc/bandit_pass/bandit20
+    prints out
+        VxCazJaVykI6W36BkBU0mJTCM8rR95XT
+    which must then be the password.
+
+
+Level 20 -> Level 21
+-----------------------
+    This time there is another setuid file in the home directory. This one makes a connection to localhost on the port specified (given as a commandline argument) and reads a line of text from the connection, before comparing it to the password from the previous level. If the password is correct, it will then transmit the password for the next level.
+        $ ls
+    gives
+        suconnect.
+    This must then be the binary mentioned.
+        $ ./suconnect
+    prints out
+        Usage: ./suconnect <portnumber>
+        This program will connect to the given port on localhost using TCP. If it receives the correct password from the other side, the next password is transmitted back.
+    Okay so the idea here is that we want to set up a server to run on the machine in the background, that listens for an inbound connection on some port. Once it establishes an incoming connection, it is supposed to send off the password to this level. An ampersand "&" can be used at the end of a command line input to make the command being inputted go into the background and stille be active. Netcat can be used to set up the one time use server that listens for a TCP connection on the port of our choosing. To do this in localhost it has to be done with the "-l" flag. The "-p" flag will specify the port. The password can be pipelined into this server using the "echo" command:
+        $ echo VxCazJaVykI6W36BkBU0mJTCM8rR95XT | nc -l -p 1337 &.
+    Here I set the port to "1337", so
+        $ ./suconnect 1337
+    returns
+        Read: VxCazJaVykI6W36BkBU0mJTCM8rR95XT
+        Password matches, sending next password
+        NvEJF7oVjkddltPSrdKEFOllh9V1IBcq
+    and the next password is then retrieved as
+        NvEJF7oVjkddltPSrdKEFOllh9V1IBcq.
+
+
+Level 21 -> Level 22
+-----------------------
+    Allegedly a program is running at regular intervals automatically, using "cron" (a time-based job scheduler). The directory /etc/cron.d/ holds the configuration file. Apparently the command being executed is of interest.
+    The directory holds some cron jobs. These are specified per user in files and there is one called "cronjob_bandit22", which must be the one of interest here.
+        $ cat cronjob_bandit22
+    gives
+        @reboot bandit22 /usr/bin/cronjob_bandit22.sh &> /dev/null
+        * * * * * bandit22 /usr/bin/cronjob_bandit22.sh &> /dev/null.
+    Apparently cron examines such entries once a minute. It would then seem that the script "/usr/bin/cronjob_bandit22.sh" is run after reboot and each minute(? (the asterisks are used to signify the range of possible values, one for minutes, one for hours, one for days of the month, one for months and one for weekdays)) with the output of the job not printed.
+        $ cat /usr/bin/cronjob_bandit22.sh
+    gives
+        #!/bin/bash
+        chmod 644 /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+        cat /etc/bandit_pass/bandit22 > /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv.
+    Okay, it is already known that "/etc/bandit_pass/bandit22" is supposed to hold the password for bandit level 22. It would seem that it is being sent into the file "/tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv". This file should then hold the password.
+        $ cat /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+    then gives
+        WdDozAdTM2z9DiFEQ2mGlwngMfj4EZff
+    which must then be the password to the next level.
+
+
+Level 22 -> Level 23
+-----------------------
+    Exactly the same as last time with the program running at regular intervals again.
+    In "/etc/cron.d/" there is a file called "cronjob_bandit23".
+        $ cat cronjob_bandit23
+    prints out
+        @reboot bandit23 /usr/bin/cronjob_bandit23.sh  &> /dev/null
+        * * * * * bandit23 /usr/bin/cronjob_bandit23.sh  &> /dev/null.
+    Much like before some shell script is run each and every minute.
+        $ cat /usr/bin/cronjob_bandit23.sh
+    gives
+        #!/bin/bash
+
+        myname=$(whoami)
+        mytarget=$(echo I am user $myname | md5sum | cut -d ' ' -f 1)
+
+        echo "Copying passwordfile /etc/bandit_pass/$myname to /tmp/$mytarget"
+
+        cat /etc/bandit_pass/$myname > /tmp/$mytarget.
+    It would seem that the name of the user doing the job (which I suppose is "bandit23") is put into a string that is then hashed using the MD5 hashing algorithm (if interested, read about it here: https://en.wikipedia.org/wiki/MD5) and the result of this then has some sections removed based upon a blank space as a delimiter (specified using the "-d" flag) and only the "1" field is then selected (specified by using the "-f" flag followed by "1"). This form the name of the file in the /tmp/ folder where the password is stored.
+    Going into the /tmp/ directory and using "ls" gives
+        ls: cannot open directory '.': Permission denied.
+    That would have been to easy anyways. Doing
+        $ echo I am user bandit23 | md5sum | cut -d ' ' -f 1
+    however gives
+        8ca319486bfbbc3663ea0fbe81326349.
+    This must then be the name of the file holding the password.
+        $ cat /tmp/8ca319486bfbbc3663ea0fbe81326349
+    then gives
+        QYw0Y2aiA672PsMmh9puTQuhoz8SyR2G
+    which must be the password to the next level.
+
+
+Level 23 -> Level 24
+-----------------------
+    
     
 
 
