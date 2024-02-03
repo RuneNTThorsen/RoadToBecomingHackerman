@@ -231,7 +231,7 @@ Level 13 -> Level 14
             IdentityFile ~/.ssh/bandit14
     and ownership has to be taken of the file:
         $ chown 600 ~/bandit14
-    and the key can now be used to log in to the bandit 14 user (the terminal program maybe has to be restarted).
+    and the key can now be used to log in to the bandit 14 user (the terminal program maybe has to be restarted and the above command maybe has to be done using super user privileges).
         $ cat /etc/bandit_pass/bandit14
     now gives
         fGrHPx402xGC7U7rXKDaxiWFTOiF0ENq
@@ -357,6 +357,24 @@ Level 16 -> Level 17
 
         closed
     which is rather interesting, since this time a password is not sent back, but an RSA key.
+
+
+Level 17 -> Level 18
+-----------------------
+    There are 2 files in the homedirectory: passwords.old and passwords.new. The password for the next level is in passwords.new and is the only line that has been changed between passwords.old and passwords.new
+    Using the SSH trick from Level 13 -> Level 14 with the private key recovered in the last challenge gives one permission to log into the remote machine on user bandit17. Just as described, inside the home directory there are 2 files, called "passwords.old" and "passwords.new". Both are long. Not long enough that it would be impossible to find the next password manually, but that seems to defeat the purpose of the challenge.
+    The "diff" command can be used to compare files line by line. By default it only outputs what is different between the files.
+        $ diff passwords.old passwords.new
+    gives
+        42c42
+        < p6ggwdNHncnmCNxuAt0KtKVq185ZU7AW
+        ---
+        > hga5tuuCLF6fFzUpnagiMN8ssu9LFrdg
+    which means that the difference between the contents of the two files are on line 42 and that the password has been changed from
+        p6ggwdNHncnmCNxuAt0KtKVq185ZU7AW
+    to
+        hga5tuuCLF6fFzUpnagiMN8ssu9LFrdg.
+    Again things are commented out in the SSH config file, in the same way as earlier.
     
 
 
