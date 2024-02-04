@@ -455,6 +455,7 @@ Level 21 -> Level 22
     then gives
         WdDozAdTM2z9DiFEQ2mGlwngMfj4EZff
     which must then be the password to the next level.
+    A quick note here is in order: "chmod" is a command to change permissions for files or directories. The argument "644" gives the owner read/write access but also read access to all other users.
 
 
 Level 22 -> Level 23
@@ -492,7 +493,61 @@ Level 22 -> Level 23
 
 Level 23 -> Level 24
 -----------------------
-    
+    cron is again running somethning. Again a cronjob is found called "cronjob_bandit24". It reads
+        @reboot bandit24 /usr/bin/cronjob_bandit24.sh &> /dev/null
+        * * * * * bandit24 /usr/bin/cronjob_bandit24.sh &> /dev/null
+    so it runs the shell script "/usr/bin/cronjob_bandit24.sh" on every reboot and every minute. The shell script reads
+        #!/bin/bash
+
+        myname=$(whoami)
+
+        cd /var/spool/$myname/foo
+        echo "Executing and deleting all scripts in /var/spool/$myname/foo:"
+        for i in * .*;
+        do
+            if [ "$i" != "." -a "$i" != ".." ];
+            then
+                echo "Handling $i"
+                owner="$(stat --format "%U" ./$i)"
+                if [ "${owner}" = "bandit23" ]; then
+                    timeout -s 9 60 ./$i
+                fi
+                rm -f ./$i
+            fi
+        done
+    so as what is being written, it executes and deletes all scripts in /var/spool/bandit24/foo. Trying
+        $ ls /var/spool/bandit24/foo
+    simply gives
+        ls: cannot open directory '/var/spool/bandit24/foo': Permission denied.
+    Notice however the innermost IF-statement. A script is only run is the owner is "bandit23". This is good, since it is exactly the user that is logged in as. "nano" is a command-line text editor. Trying to use this to create a script in the home folder is being denied, so a temporary working directory is required.
+        $mktemp -d
+    is a command that is used to make a temporary directory. In this case it printed out
+        /tmp/tmp.1K2VYdddBX
+    which is then the name of the temporary directory to be used, so
+        $ cd /tmp/tmp.1K2VYdddBX
+    changed to this directory and nano (a command line text editor) can be used to make the necessary script
+        $ nano myscript.sh
+    opens up nano and remembering that the password for the next level is stored in /etc/bandit_pass/bandit24 (and that it is the user bandit24 that is actually executing the script - the same user that has access to reading the file containing the password), the script then has to be something like
+        #!/bin/bash
+        cat /etc/bandit_pass/bandit24 > /tmp/tmp.1K2VYdddBX/bandit24_password.
+    The scripts can be saved using Ctrl+S and nano can be closed using Ctrl+X. Now the file "bandit24_password" is needed. "touch" is a command that can be used to make files:
+        $ touch bandit24_password
+    will create the empty file "bandit24_password". Now since the script is being run by user "bandit24" and the file(s) has now been created by user "bandit23", some permissions needs to be altered. For simplicity all permissions are given to all users for the temporary working directory, the script and the file that the password is to be stored in:
+        $ chmod 777 /tmp/tmp.1K2VYdddBX
+        $ chmod 777 bandit24_password
+        $ chmod 777 myscript.sh
+    The "777" argument is used to give all permissions to all users. This is done here just to make sure, there are no problems regarding permissions.
+    The last thing is to copy the script into the /var/spool/bandit24/foo folder:
+        $ cp myscript.sh /var/spool/bandit24/foo/myscript.sh
+    and wait for the script to be executed, after which the password can be read. After the script has executed, the contents of the password file can be printed out:
+        $ cat bandit24_password
+    and it returns
+        VAfGXJ1PBSsPSnvsjI8p759leLZ9GGar
+    which must then be the password for the next level.
+
+
+Level 24 -> Level 25
+-----------------------
     
 
 
