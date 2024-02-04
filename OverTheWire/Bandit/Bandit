@@ -779,7 +779,97 @@ Level 29 -> Level 30
 Level 30 -> Level 31
 -----------------------
     Exactly the same as before, but this time with bandit30 instead.
-    
+    This time "README.md" reads
+        just an epmty file... muahaha.
+    There is only the master branch this time and only the initial commit. Some points in time can be tagged however. To see such, one would use
+        $ git tag
+    which shows
+        secret.
+    So
+        git show secret
+    reveals
+        OoffzGDlzhAlerFJ2cAiz1D41JW1Mhmt
+    which must be the password for the next level.
+
+
+Level 31 -> Level 32
+-----------------------
+    Exactly the same as before, but this time with bandit31 instead.
+    This time "README.md" reads
+        This time your task is to push a file to the remote repository.
+
+        Details:
+            File name: key.txt
+            Content: 'May I come in?'
+            Branch: master.
+    "git push" is the command used to push something to the remote origin of the repository. Once the changes are made, it needs to be staged for commitment using "git add" and then committed using "git commit" (possibly using the flag "-m" followed by a string inside quotation marks, that describes the changes). Okay so a file has to be created and it has to be called "key.txt". The contents should be "May I come in?" and it should be pushed to the master branch. The file is easily created and written with nano:
+        $ nano key.txt
+    and then the contents are written and saved and nano is closed again.
+    One thing to note however is that the repository this time holds a ".gitignore". This is a file specifying whihc types of files should be ignored for commits.
+        $ cat .gitignore
+    prints
+        *.txt
+    meaning that all files ending in ".txt" will be ignored. The file can be forced to come into staging by using
+        $ git add -f .
+    and commited using
+        $ git commit -m "added key.txt"
+    and finally pushed using
+        $ git push
+    after which one is asked if one wants to proceed (again due to the authenticity not being able to be automatically established) and one is then again asked for the password for the level. After all this, one is sent back:
+        Enumerating objects: 4, done.
+        Counting objects: 100% (4/4), done.
+        Delta compression using up to 2 threads
+        Compressing objects: 100% (2/2), done.
+        Writing objects: 100% (3/3), 323 bytes | 323.00 KiB/s, done.
+        Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+        remote: ### Attempting to validate files... ####
+        remote: 
+        remote: .oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.
+        remote: 
+        remote: Well done! Here is the password for the next level:
+        remote: rmCBvG56y58BXzv98yZGdO7ATVL5dW8y 
+        remote: 
+        remote: .oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.
+        remote: 
+        To ssh://localhost:2220/home/bandit31-git/repo
+         ! [remote rejected] master -> master (pre-receive hook declined)
+        error: failed to push some refs to 'ssh://localhost:2220/home/bandit31-git/repo'
+    and so the password for the next level must be
+        rmCBvG56y58BXzv98yZGdO7ATVL5dW8y.
+
+
+Level 32 -> Level 33
+-----------------------
+    After logging in, one is greeted with
+        WELCOME TO THE UPPERCASE SHELL
+    and trying
+        $ ls
+    gives
+        sh: 1: LS: Permission denied
+    so everything given is changed to uppercase by the shell. This is a problem, because all commands that one would want to use are lowercase. However variables are always uppercase and the variable "$0" should refer to the normal bash shell on Linux systems. Typing in
+        >> $0
+    brings back a normal terminal.
+        $ whoami
+    gives
+        bandit33
+    so the password file should be readable though.
+        $ cat /etc/bandit_pass/bandit33
+    gives
+        odHo63fHiFqcWWJG9rLiLDtPm45KzUKy
+    which should be the password for the next level. Once done, use "exit" and Ctrl+c to get out of the remote session.
+
+
+Level 33 -> Level 34
+-----------------------
+    This is the end. Once logged in, there is just a "README.md" that reads
+        Congratulations on solving the last level of this game!
+
+        At this moment, there are no more levels to play in this game. However, we are constantly working
+        on new levels and will most likely expand this game with more levels soon.
+        Keep an eye out for an announcement on our usual communication channels!
+        In the meantime, you could play some of our other wargames.
+
+        If you have an idea for an awesome new level, please let us know!
 
     
 
