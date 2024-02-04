@@ -579,7 +579,209 @@ Level 24 -> Level 25
 Level 25 -> Level 26
 -----------------------
     The shell for bandit26 is apparently not /bin/bash, but something else. The challenge is to find out what it is, how it works and how to break out of it. Somehow this is supposed to accomplish logging into bandit26 from bandit25.
+    Once connected through SSH, one is inside the home directory of the bandit25 user. Here there is a file called "bandit26.sshkey".
+        $ cat bandit26.sshkey
+    gives
+        -----BEGIN RSA PRIVATE KEY-----
+        MIIEpQIBAAKCAQEApis2AuoooEqeYWamtwX2k5z9uU1Afl2F8VyXQqbv/LTrIwdW
+        pTfaeRHXzr0Y0a5Oe3GB/+W2+PReif+bPZlzTY1XFwpk+DiHk1kmL0moEW8HJuT9
+        /5XbnpjSzn0eEAfFax2OcopjrzVqdBJQerkj0puv3UXY07AskgkyD5XepwGAlJOG
+        xZsMq1oZqQ0W29aBtfykuGie2bxroRjuAPrYM4o3MMmtlNE5fC4G9Ihq0eq73MDi
+        1ze6d2jIGce873qxn308BA2qhRPJNEbnPev5gI+5tU+UxebW8KLbk0EhoXB953Ix
+        3lgOIrT9Y6skRjsMSFmC6WN/O7ovu8QzGqxdywIDAQABAoIBAAaXoETtVT9GtpHW
+        qLaKHgYtLEO1tOFOhInWyolyZgL4inuRRva3CIvVEWK6TcnDyIlNL4MfcerehwGi
+        il4fQFvLR7E6UFcopvhJiSJHIcvPQ9FfNFR3dYcNOQ/IFvE73bEqMwSISPwiel6w
+        e1DjF3C7jHaS1s9PJfWFN982aublL/yLbJP+ou3ifdljS7QzjWZA8NRiMwmBGPIh
+        Yq8weR3jIVQl3ndEYxO7Cr/wXXebZwlP6CPZb67rBy0jg+366mxQbDZIwZYEaUME
+        zY5izFclr/kKj4s7NTRkC76Yx+rTNP5+BX+JT+rgz5aoQq8ghMw43NYwxjXym/MX
+        c8X8g0ECgYEA1crBUAR1gSkM+5mGjjoFLJKrFP+IhUHFh25qGI4Dcxxh1f3M53le
+        wF1rkp5SJnHRFm9IW3gM1JoF0PQxI5aXHRGHphwPeKnsQ/xQBRWCeYpqTme9amJV
+        tD3aDHkpIhYxkNxqol5gDCAt6tdFSxqPaNfdfsfaAOXiKGrQESUjIBcCgYEAxvmI
+        2ROJsBXaiM4Iyg9hUpjZIn8TW2UlH76pojFG6/KBd1NcnW3fu0ZUU790wAu7QbbU
+        i7pieeqCqSYcZsmkhnOvbdx54A6NNCR2btc+si6pDOe1jdsGdXISDRHFb9QxjZCj
+        6xzWMNvb5n1yUb9w9nfN1PZzATfUsOV+Fy8CbG0CgYEAifkTLwfhqZyLk2huTSWm
+        pzB0ltWfDpj22MNqVzR3h3d+sHLeJVjPzIe9396rF8KGdNsWsGlWpnJMZKDjgZsz
+        JQBmMc6UMYRARVP1dIKANN4eY0FSHfEebHcqXLho0mXOUTXe37DWfZza5V9Oify3
+        JquBd8uUptW1Ue41H4t/ErsCgYEArc5FYtF1QXIlfcDz3oUGz16itUZpgzlb71nd
+        1cbTm8EupCwWR5I1j+IEQU+JTUQyI1nwWcnKwZI+5kBbKNJUu/mLsRyY/UXYxEZh
+        ibrNklm94373kV1US/0DlZUDcQba7jz9Yp/C3dT/RlwoIw5mP3UxQCizFspNKOSe
+        euPeaxUCgYEAntklXwBbokgdDup/u/3ms5Lb/bm22zDOCg2HrlWQCqKEkWkAO6R5
+        /Wwyqhp/wTl8VXjxWo+W+DmewGdPHGQQ5fFdqgpuQpGUq24YZS8m66v5ANBwd76t
+        IZdtF5HXs2S5CADTwniUS5mX1HO9l5gUkk+h0cH5JnPtsMCnAUM+BRY=
+        -----END RSA PRIVATE KEY-----.
+    doing the SSH trick from Level 13 -> Level 14 now logs one in, but immediately logs one out again. Trying to pass an argument along with the SSH command seems to make the login halt at the time that a password is typically provided (but without it asking for a password).
+    Apparently all users' standard shells are stored in "/etc/passwd" as the last field of the line for the user. So
+        $ cat etc/passwd | grep bandit26
+    prints out
+        bandit26:x:11026:11026:bandit level 26:/home/bandit26:/usr/bin/showtext
+    from which it can be seen that the standard shell of user bandit26 is some program called "showtext" located at /usr/bin/showtext.
+        $ cat /usr/bin/showtext
+    gives
+        #!/bin/sh
 
+        export TERM=linux
+
+        exec more ~/text.txt
+        exit 0
+    from which it can be seen that the program uses the command "more" on the file "text.txt" in the home directory before exiting. "more" is a command that displays the contents of a file in the terminal. It does so one screenful at a time. Allegedly rescaling the terminal window to be as small as possible before connecting to bandit26 through SSH will force more to go into command mode, because it cannot display the whole contents of the file at once. Once here, "v" can be typed to open the file in an editor (vi is the default). Remembering that the user now logged in is bandit26. That means that the file /etc/bandit_pass/bandit26 is readable now. This can just be opened from within vi. This is done by typing
+        :e /etc/bandit_pass/bandit26
+    and hitting Enter. The file is now opened and can be read and the password inside it is
+        c7GvcKlw9mC7aUQaPx7nwFstuAIBw1o1.
+    This password actually works and logs one in (to test this, one must remember to comment out the relevant user and key-file lines in the SSH config file first, as usual). Before one is automatically logged out again that is. Doing the trick with resizing the window once again works once again though.
+    There is also another way of completing this challenge. vi has the option to run a shell for you. The only problem is that it uses the user's default shell. It can be set to a normal bash shell though using
+        :set shell=/bin/bash.
+    Doing so and using
+        :shell
+    then opens up a bash shell in bandit26's home directory. Now
+        $ cat /etc/bandit_pass/bandit26
+    prints out
+        c7GvcKlw9mC7aUQaPx7nwFstuAIBw1o1.
+
+
+Level 26 -> Level 27
+-----------------------
+    Inside the home directory of bandit26 there is the file "text.txt" and a file called "bandit27-do". This seems to be a setuid binary just as in Level 19 -> Level 20.
+        $ ./bandit27-do cat /etc/bandit_pass/bandit27
+    prints out
+        YnQpBuifNMas1hcUFk70ZmqkhUU2EuaS
+    which must then be the password of the next level.
+
+
+Level 27 -> Level 28
+-----------------------
+    Allegedly there is a git repository at ssh://bandit27-git@localhost/home/bandit27-git/repo that can be reached using port 2220. The password for bandit27-git is allegedly the same as for the user bandit27.
+    Since the repo is on localhost, it makes sense to make a temporary working directory and doing everything on the remote machine in there.
+        $ mktemp -d
+    prints
+        /tmp/tmp.p4STher922
+    and
+        $ cd /tmp/tmp.p4STher922
+    changes to this directory. Now git is a version handling program. Clonging the repository is done with
+        $ git clone ssh://bandit27-git@localhost:2220/home/bandit27-git/repo.
+    At first one is told that the authenticity of "localhost" cannot be established, so one is asked, if one wishes to continue. typing "yes" and hitting Enter is fine here. The process continues and one is asked for a password. As stated before this is the same as the one used to log into this level. Paste it r type it and hit Enter and the repository is cloned into the temporary working directory. Now
+        $ ls
+    reveals a folder inside the temporary working directory. This is the repository that has been cloned in here. It is called "repo". Inside is a file called "README".
+        $ cat README
+    prints out
+        The password to the next level is: AVanL161y9rsbcJIsFHuw35rjaOM19nR.
+
+Level 28 -> Level 29
+-----------------------
+    Same as last level, except this time the user is called bandit28 and bandit28-git and the repository is at ssh://bandit28-git@localhost/home/bandit28-git/repo but is again reachable on port 2220.
+    Inside the repository is now a file called "README.md". It reads:
+        # Bandit Notes
+        Some notes for level29 of bandit.
+
+        ## credentials
+
+        - username: bandit29
+        - password: xxxxxxxxxx.
+    Okay not that useful. Maybe the password was erased at some point. The thing about Git is that you can change your files, commit them and then once committed, the logs show that something has been changed and you can revert back to a previous commit and all sorts of other stuff.
+        $ git log
+    shows
+        commit 14f754b3ba6531a2b89df6ccae6446e8969a41f3 (HEAD -> master, origin/master, origin/HEAD)
+        Author: Morla Porla <morla@overthewire.org>
+        Date:   Thu Oct 5 06:19:41 2023 +0000
+
+            fix info leak
+
+        commit f08b9cc63fa1a4602fb065257633c2dae6e5651b
+        Author: Morla Porla <morla@overthewire.org>
+        Date:   Thu Oct 5 06:19:41 2023 +0000
+
+            add missing data
+
+        commit a645bcc508c63f081234911d2f631f87cf469258
+        Author: Ben Dover <noone@overthewire.org>
+        Date:   Thu Oct 5 06:19:41 2023 +0000
+
+            initial commit of README.md
+    so there was an initial commit, then a commit later adding some data and then later someone "fixed info leak". This last commit is probably where the missing password was removed. A previous commit's changes can be printed out using
+        $ git show <commit>
+    so
+        $ git show a645bcc508c63f081234911d2f631f87cf469258
+    reveals the initial commit:
+        commit a645bcc508c63f081234911d2f631f87cf469258
+        Author: Ben Dover <noone@overthewire.org>
+        Date:   Thu Oct 5 06:19:41 2023 +0000
+
+            initial commit of README.md
+
+        diff --git a/README.md b/README.md
+        new file mode 100644
+        index 0000000..7ba2d2f
+        --- /dev/null
+        +++ b/README.md
+        @@ -0,0 +1,8 @@
+        +# Bandit Notes
+        +Some notes for level29 of bandit.
+        +
+        +## credentials
+        +
+        +- username: bandit29
+        +- password: <TBD>
+        +
+    which shows that at the inital commit there was no password. The second commit shows
+        commit f08b9cc63fa1a4602fb065257633c2dae6e5651b
+        Author: Morla Porla <morla@overthewire.org>
+        Date:   Thu Oct 5 06:19:41 2023 +0000
+
+            add missing data
+
+        diff --git a/README.md b/README.md
+        index 7ba2d2f..b302105 100644
+        --- a/README.md
+        +++ b/README.md
+        @@ -4,5 +4,5 @@ Some notes for level29 of bandit.
+         ## credentials
+ 
+         - username: bandit29
+        -- password: <TBD>
+        +- password: tQKvmcwNYcFS6vmPHIUSI3ShmsrQZK8S
+    and given that the last commit is the one already in, it is safe to assume that this is the commit that actually gives the password. The password for the next level is then
+        tQKvmcwNYcFS6vmPHIUSI3ShmsrQZK8S.
+
+
+Level 29 -> Level 30
+-----------------------
+    Exactly the same as before, but this time with bandit29 instead.
+    Again there is a file inside the "repo" folder called "README.md". It reads
+        # Bandit Notes
+        Some notes for bandit30 of bandit.
+
+        ## credentials
+
+        - username: bandit30
+        - password: <no passwords in production!>.
+    Apparently there are no passwords in production. Maybe there are other branches not in production.
+        $ git branch -a
+    lists all branches as
+        * master
+          remotes/origin/HEAD -> origin/master
+          remotes/origin/dev
+          remotes/origin/master
+          remotes/origin/sploits-dev.
+    This shows that currently it is the master branch that is being dealt with. Maybe the others are worth checking out.
+        $ git checkout remotes/origin/dev
+    changes to the "remotes/origin/dev"-branch. In here the "README.md" file reads
+        # Bandit Notes
+        Some notes for bandit30 of bandit.
+
+        ## credentials
+
+        - username: bandit30
+        - password: xbhV3HpNGlTIdnjUrdAlPzc2L6y9EOnS.
+    None of the other branches proved fruitful, which must mean that
+        xbhV3HpNGlTIdnjUrdAlPzc2L6y9EOnS
+    is the password for the next level.
+
+
+Level 30 -> Level 31
+-----------------------
+    Exactly the same as before, but this time with bandit30 instead.
+    
+
+    
 
         
 
