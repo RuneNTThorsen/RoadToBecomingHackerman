@@ -23,7 +23,7 @@ Level 0 -> Level 1:
 Level 1 -> Level 2:
 ----------------------
     Here the password for the next level is in a file called "-".
-        $ cat '
+        $ cat -
     does not work - probably because the filename is a special character. The same goes for
         $ cat "-".
     However, the command
@@ -531,7 +531,7 @@ Level 23 -> Level 24
         #!/bin/bash
 
         cat /etc/bandit_pass/bandit24 > /tmp/tmp.1K2VYdddBX/bandit24_password.
-    The scripts can be saved using Ctrl+S and nano can be closed using Ctrl+X. Now the file "bandit24_password" is needed. "touch" is a command that can be used to make files:
+    The scripts can be saved using Ctrl+s and nano can be closed using Ctrl+x. Now the file "bandit24_password" is needed. "touch" is a command that can be used to make files:
         $ touch bandit24_password
     will create the empty file "bandit24_password". Now since the script is being run by user "bandit24" and the file(s) has now been created by user "bandit23", some permissions needs to be altered. For simplicity all permissions are given to all users for the temporary working directory, the script and the file that the password is to be stored in:
         $ chmod 777 /tmp/tmp.1K2VYdddBX
