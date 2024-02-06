@@ -1,0 +1,12 @@
+As stated in the challenge, it is surely expected that there will be some crypto challenges.
+    This one involves the caesar cipher (read about it here: https://en.wikipedia.org/wiki/Caesar_cipher). There is a text given:
+        VJG SWKEM DTQYP HQZ LWORU QXGT VJG NCBA FQI QH ECGUCT CPF AQWT WPKSWG UQNWVKQP KU HJCUTKTDEFEO
+    and given the challenge name, it can be inferred that this text is most likely encrypted using the caesar cipher.
+    Assuming that it is the english alphabet that is being used to do encryption/decryption and numbers does not count, there are a total of only 25 different possible plaintexts. I made a small python script called "caesar_bruteforcer.py" to solve this challenge. Having Python installed, it is invoked using
+        $ python caesar_bruteforcer.py "VJG SWKEM DTQYP HQZ LWORU QXGT VJG NCBA FQI QH ECGUCT CPF AQWT WPKSWG UQNWVKQP KU HJCUTKTDEFEO".
+    Actually the ciphertext can be any ciphertext, but is has to be enclosed in quotation marks, if it contains any spaces.
+    The script saves the possible plaintexts in a file called "possible plaintexts". Reading this file there is only one possible plaintext, where there is some comprehensible english, so this must be the one. It reads:
+        THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG OF CAESAR AND YOUR UNIQUE SOLUTION IS FHASRIRBCDCM
+    from which
+        FHASRIRBCDCM
+    can be extracted and is the password used to solve this challenge.

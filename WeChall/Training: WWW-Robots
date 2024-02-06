@@ -1,0 +1,11 @@
+In this challenge it is informed, that web crawlers use a file called "robots.txt" on web servers to find out what they are and what they aren't allowed to crawl. Think of how Google is able to find sites on a domain inside of that domain to be able to index them (read more about it here: https://en.wikipedia.org/wiki/Robots.txt). Additionally it is hinted that sometimes these files can accidentally reveal the structure of a site or reveal some secret file.
+    Heading to https://www.wechall.net/robots.txt gives a site with the following text:
+        User-agent: *
+        Disallow: /challenge/training/www/robots/T0PS3CR3T
+
+
+        User-agent: Yandex
+        Disallow: *
+meaning that the user Yandex is not allowed to crawl anything, but any user is disallowed to crawl
+        /challenge/training/www/robots/T0PS3CR3T.
+    Now heading to https://www.wechall.net/challenge/training/www/robots/T0PS3CR3T/ solves the challenge.

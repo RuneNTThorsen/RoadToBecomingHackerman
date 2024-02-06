@@ -1,0 +1,9 @@
+ASCII is an encoding of characters into numbers (read more here: https://en.wikipedia.org/wiki/ASCII). One cna look up a table to do the encoding or the reverse (see for example here: https://www.asciitable.com/).
+    The challenge is to take a sequence of numbers and convert them to their respective characters. The sequence given is
+        84, 104, 101, 32, 115, 111, 108, 117, 116, 105, 111, 110, 32, 105, 115, 58, 32, 115, 115, 101, 104, 98, 111, 99, 114, 103, 109, 105, 103.
+    The are saved to a file called "encoded_chars" in this folder. I made a python script to decode them and print them to screen. It is called "ASCII_decoder.py" and is used by doing
+        $ python ASCII_decoder.py encoded_chars
+in the terminal. It prints out:
+        The solution is: ssehbocrgmig
+so the password used to solve this challenge must then be
+        ssehbocrgmig.

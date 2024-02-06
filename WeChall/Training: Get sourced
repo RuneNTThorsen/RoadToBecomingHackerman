@@ -1,0 +1,8 @@
+In this challenge, you are told that the solution is hidden in the page. The text is inside a white textbox and just below it is another piece of text. This other piece of text is a very light gray, making it a bit hard to read. To read, either just focus a lot or mark it to have a background of another colour to set it up against. The text reads:
+        Use View Sourcecode to get it.
+    As the name of the challenge implies, looking at the sourcecode of the web page is probably needed in order to complete this challenge (each and every website has a HTML sourcecode).
+    In Firefox, one would inspect the sourcecode of a webpage, by being on the webpage and pressing Ctrl+u. Doing this to the webpage of the challenge show the source code. Nothing seems to stand out about this, except for the fact that there are several lines after the end of the source code of the webpage itself. Scrolling down and a bit to the right is found a HTML-comment saying
+        <!-- You are looking for this password: html_sourcecode -->
+which must mean that the password needed to pass this level must be
+        html_sourcecode.
+    Copying the password into the answer box and submitting completes the challenge.

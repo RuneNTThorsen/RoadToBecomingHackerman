@@ -1,0 +1,12 @@
+DISCLAIMER: I have not (yet) made a script that does the cracking of the ciphertext myself.
+
+This time the challenge is to crack a text encrypted using a simple substitution cipher (read more about that here: https://en.wikipedia.org/wiki/Substitution_cipher#Simple_substitution).
+    The text is
+        MV FEU HPDBJEFV JTY VTC QHZ GUHY FEBI DV XGBUZY B HD BDWGUIIUY NUGV OUPP YTZU VTCG ITPCFBTZ RUV BI UZIBUXJDYUEG FEBI PBFFPU QEHPPUZJU OHI ZTF FTT EHGY OHI BF.
+    dCode made a web tool based upon the Markov Chain Monte Carlo method to solve the issue of decrypting such texts (knowing only the plaintext alphabet... And most likely language), which is available here: https://www.dcode.fr/monoalphabetic-substitution.
+    The main idea behind attacking this challenge is to find the frequencies of each letter used in the ciphertext. If the plaintext is in english for example, then the letter with the most occurences is most likely "E" and so on and so forth. Letter frequencies in plaintext can be looked up for at least a lot of languages. Anyway, continuing on with the example, the idea is then that the most frequent letter of the ciphertext is exchanged for "E" and so on and so forth. Eventually one arrives at a possible substitution table, mapping each letter of ciphertext to a letter of plaintext.
+    The tool by dCode takes this a step further and uses statistical calculations to see if any other substitution table gives a better probability of being correct in the decoding - thus iteratively improving the substitution table.
+    Anyway the ciphertext decrypts to
+        BY THE ALMIGHTY GOD YOU CAN READ THIS MY FRIEND I AM IMPRESSED VERY WELL DONE YOUR SOLUTION KEY IS ENSIEFGMDEHR THIS LITTLE CHALLENGE WAS NOT TOO HARD WAS IT
+which gives the solution to the challenge as
+        ENSIEFGMDEHR.

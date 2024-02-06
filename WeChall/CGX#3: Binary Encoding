@@ -1,0 +1,10 @@
+The challenge here is to convert the binary number
+        01010001
+to a decimal number (read more about binary numbers here: https://en.wikipedia.org/wiki/Binary_number).
+    This challenge can easily be accomplished by hand (someone who knows how to read binary numbers, will almost instantly be able to tell, that the number is 81), but it can also be accomplished easily using Python. On a linux machine having Python installed, open up a Python terminal by typing
+        $ python
+in a terminal window. Now type
+        >>> int('01010001', 2)
+and the result
+        81
+should be printed.

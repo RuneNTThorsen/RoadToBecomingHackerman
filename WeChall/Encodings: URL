@@ -1,0 +1,12 @@
+The task is to decode the following string:
+        %59%69%70%70%65%68%21%20%59%6F%75%72%20%55%52%4C%20%69%73%20%63%68%61%6C%6C%65%6E%67%65%2F%74%72%61%69%6E%69%6E%67%2F%65%6E%63%6F%64%69%6E%67%73%2F%75%72%6C%2F%73%61%77%5F%6C%6F%74%69%6F%6E%2E%70%68%70%3F%70%3D%62%67%72%61%69%73%67%69%68%65%65%72%26%63%69%64%3D%35%32%23%70%61%73%73%77%6F%72%64%3D%66%69%62%72%65%5F%6F%70%74%69%63%73%20%56%65%72%79%20%77%65%6C%6C%20%64%6F%6E%65%21.
+    The name of the challenge gives a hint as to what to look/search for. It is an URL encoding. URLs cna be sent across the internet using ASCII but sometimes characters does not conform to the ASCII character set, so they will have to be converted into something that does. This is where this encoding comes into play. "Unsafe" characters are converted into a "%" followed by 2 hexadecimal digits (read more about hexadecimal here: https://en.wikipedia.org/wiki/Hexadecimal and read more about the percent encoding here: https://en.wikipedia.org/wiki/Percent-encoding).
+    This challenge can be solved using Python. On a Linux machine with Python installed type
+        $ python
+in the terminal. A Python terminal now starts. Now import the relevant decoding function, save the string in a variable and decode the string:
+        >>> from urllib.parse import unquote
+        >>> url = '%59%69%70%70%65%68%21%20%59%6F%75%72%20%55%52%4C%20%69%73%20%63%68%61%6C%6C%65%6E%67%65%2F%74%72%61%69%6E%69%6E%67%2F%65%6E%63%6F%64%69%6E%67%73%2F%75%72%6C%2F%73%61%77%5F%6C%6F%74%69%6F%6E%2E%70%68%70%3F%70%3D%62%67%72%61%69%73%67%69%68%65%65%72%26%63%69%64%3D%35%32%23%70%61%73%73%77%6F%72%64%3D%66%69%62%72%65%5F%6F%70%74%69%63%73%20%56%65%72%79%20%77%65%6C%6C%20%64%6F%6E%65%21'
+        >>> unquote(url)
+and it should print
+        'Yippeh! Your URL is challenge/training/encodings/url/saw_lotion.php?p=bgraisgiheer&cid=52#password=fibre_optics Very well done!'.
+    Now heading to https://www.wechall.net/challenge/training/encodings/url/saw_lotion.php?p=bgraisgiheer&cid=52#password=fibre_optics solves the challenge.

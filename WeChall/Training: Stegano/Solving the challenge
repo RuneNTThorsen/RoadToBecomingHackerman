@@ -1,0 +1,14 @@
+So in this challenge, there is a picture and some text. The picture is included in this folder and the text reads:
+        This is the most basic image stegano I can think of.
+    By "stegano" is meant steganography. It is a way to hide something disguised as something else. This also encompasses non-digital applications. Read more about it here: https://en.wikipedia.org/wiki/Steganography
+    Anyway, the image is downloaded and it is noted that it is a bitmap image. One might think to use a modern steganography tool (there are plenty), but this challenge is actually much simpler than that. Simply using
+        $ cat stegano1.bmp
+    prints out
+        BMf6(0Look what the hex-edit revealed: passwd:steganoI.
+    So
+        steganoI
+    must be the password to complete the challenge.
+
+
+    A quick note about "cat":
+        "cat" is a commandline command in Linux that prints out the contents of a file to the terminal.
