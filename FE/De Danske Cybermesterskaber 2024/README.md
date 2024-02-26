@@ -1,0 +1,1 @@
+This folder is for challenges related to "De Danske Cybermesterskaber 2024" ("The Danish Cyber Championships 2024") - a national contest to find a team to participate in the international cyber championships. It is limited to ages 15 through 25, so I can not participate, but I can still solve challenges, that they have put out for the public to engage in.
