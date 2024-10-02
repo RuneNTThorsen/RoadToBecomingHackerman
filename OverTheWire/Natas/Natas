@@ -257,4 +257,36 @@ from which the password for natas11 can be determined as
 
 Lvl. 10 -> 11:
 -----------------
+Now one is greeted by a website that says "Cookies are protected with XOR encryption" and a prompt that lets one enter the hexadecimal value of a colour. If one submits said colour, the background is changed to that colour. There is also a hyperlink that takes one to see the source code, which also reveals the PHP script used to encrypt the cookie, extract the encrypted data, etc.
+This challenge would have been easy, were it not for the fact, that the bits to be encrypted with comes from a secret key.
+There is another way around this. The cookie of the page, called "data", has some default data in it:
 
+    "showpassword"=>"no", "bgcolor"=>"#ffffff"
+
+and in order to show the password, the "showpassword" field needs to be set to "yes". So setting the contents of the cookie using non-default data, where the "showpassword" field is set to "yes" and then letting everything run as it should, should be enough.
+Remember that the XOR operation is its own inverse. This means that if we "encrypt" the ciphertext once again, using the plaintext as a "key", then we get the key back.
+I already have the cookie data from the developer tool in firefox. Now all that is needed in order to obtain the key is a PHP script. It is included as "natas11_1.php".
+The script produces the key
+
+    eDWoeDWoeDWoeDWoeDWoeDWoeDWoeDWoeDWoeDWoeL
+
+but the original script seems to take into account that the key might not be as long as the data to be encrypted, so it seems reasonable, that the key is actually just
+
+    eDWo.
+
+Now this key can be put into a second script, called "natas11_2.php", with the desired cookie data, where the "showpassword" field is set to "yes". This gives the cookie data
+
+    HmYkBwozJw4WNyAAFyB1VUc9MhxHaHUNAic4Awo2dVVHZzEJAyIxCUc5
+
+and setting this as the cookie data using the developer tool and refreshing the page gives
+
+    The password for natas12 is yZdkjAYZRd3R7tq7T5kXMjMJlOIkzDeB
+
+from which the password for the next level can be easily read.
+
+
+
+
+Lvl. 11 -> 12:
+-----------------
+This time there is a possibility of uploading a JPEG-file of a max size of 1KB as well as another hyperlink to view the source code.
