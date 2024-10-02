@@ -1,0 +1,260 @@
+Natas teaches the basics of serverside web-security.
+
+Each level of natas consists of its own website located at http://natasX.natas.labs.overthewire.org, where X is the level number. There is no SSH login. To access a level, enter the username for that level (e.g. natas0 for level 0) and its password.
+
+Each level has access to the password of the next level. Your job is to somehow obtain that next password and level up. All passwords are also stored in /etc/natas_webpass/. E.g. the password for natas5 is stored in the file /etc/natas_webpass/natas5 and only readable by natas4 and natas5.
+
+Start here:
+
+Username: natas0
+Password: natas0
+URL:      http://natas0.natas.labs.overthewire.org
+
+
+
+
+
+Lvl 0:
+---------
+Access to this level is already given.
+After logging in, one is greeted with a web page that reads "ou can find the password for the next level on this page."
+Pressing
+
+    Ctrl+U
+
+to view the HTML source code of the website reveals a comment in said source code that read
+
+    The password for natas1 is 0nzCigAq7t2iALyvU9xcHlYN4MlkIwlq
+
+from which the password for natas1 is obtained.
+    
+
+
+
+
+Lvl 0 -> 1:
+--------------
+In this level a website that reads "You can find the password for the next level on this page, but rightclicking has been blocked!" is shown.
+Truly enough, right clicking is disabled. The trick from before works again however and reveals HTML source code that has a comment, that reads
+
+    The password for natas2 is TguMNxKo1DSa1tujBLuZJnDUlCcUAPlI
+
+from which the password for the next level is obtained.
+
+
+
+
+Lvl 1 -> 2:
+--------------
+In this level a website is shown, that displays the text "There is nothing on this page".
+Sure enough, the website source code reveals nothing. It does however reveal that there is a PNG-image embedded in the text box, by the name of "pixel.png". The full location of this image is "files/pixel.png". Inspecting the source code of the website and clicking the link to the destination just reveals the image, which consists of a single image of one white pixel (at least I think it is white).
+Removing the "pixel.png" part of the URL brings one to the index of /files. Here it can be seen that there is a file called "users.txt". Clicking on that prints the following to the screen:
+
+    # username:password
+    alice:BYNdCesZqW
+    bob:jw2ueICLvT
+    charlie:G5vCxkVV3m
+    natas3:3gqisGdR0pjm6tpkDKdIWO2hSvchLeYH
+    eve:zo4mJWyNj2
+    mallory:9urtcpzBmH
+
+from which it can be seen that the password for the next level is
+
+    3gqisGdR0pjm6tpkDKdIWO2hSvchLeYH.
+
+
+
+
+Lvl 2 -> 3:
+--------------
+Again the webpage reads "There is nothing on this page". Again the source code seem to confirm this.
+However there is a comment in the source code that states "No more information leaks!! Not even Google will find it this time..." I am fairly certain that this refers to the robots.txt file that specifies which parts of a website is allowed to be indexed by search machines (such as Google) and which are not. Entering
+
+    http://natas3.natas.labs.overthewire.org/robots.txt
+
+reveals this textfile, which reads
+
+    User-agent: *
+    Disallow: /s3cr3t/
+
+so the relevant information is probably in
+
+    http://natas3.natas.labs.overthewire.org/s3cr3t/
+
+and heading to this location shows an index of said folder, where a "users.txt" is located, that reads
+
+    natas4:QryZXc2e0zahULdHrtHxzyYkj59kUxLQ
+
+from which the password for the next level is then obtained.
+
+
+
+
+Lvl 3 -> 4:
+--------------
+In this level one is met by a website that reads
+
+    Access disallowed. You are visiting from "" while authorized users should come only from "http://natas5.natas.labs.overthewire.org/"
+
+and after refreshing the page (using the button to do so that is on the page) it reads
+
+    Access disallowed. You are visiting from "http://natas4.natas.labs.overthewire.org/index.php" while authorized users should come only from "http://natas5.natas.labs.overthewire.org/"
+
+Okay so the site seems to keep tabs on where I am coming from. Using Firefox' developer tool, one can see that refreshing the page sends an HTPP GET request to index.php, which also includes which page one is coming from. So the trick now is to send such a request, but forge the referer page to be "http://natas5.natas.labs.overthewire.org/".
+There is a reason that the username and password for the previous site was in that format. This challenge is most likely supposed to be solved using
+
+    $ curl -u natas4:QryZXc2e0zahULdHrtHxzyYkj59kUxLQ -e http://natas5.natas.labs.overthewire.org/ http://natas4.natas.labs.overthewire.org/index.php
+
+which then prints out the relevant HTML code, that is supposed to be used to show the website. curl is a linux command line tool used to transfer data using URLs. the "-u" flag specifies the user and its password in the format <user>:<password>, which is eerily similar to the format that the relevant username and password was given in the previous level. The "-e" flag sets the HTTP Referer to the URL that comes right after it and the last argument is simply the URL that the data is supposed to be sent to.
+Among the source code that is returned, one line reads
+
+    Access granted. The password for natas5 is 0n35PkggAPm2zbEpOU802c0x0Msn1ToK
+
+and the password for the next level is then obtained.
+
+
+
+
+Lvl. 4 -> 5:
+---------------
+This time the site says
+
+    Access disallowed. You are not logged in
+
+Opening up the developer console in Firefox and heading to the "Storage" tab reveals a list of cookies that this website uses. One of them is named "loggedin" and has a value of "0". Changing this value to "1" and refreshing the page then opens up a new web page that reads
+
+    Access granted. The password for natas6 is 0RoJwHdSKWFTYR5WuiAewauSuNaBXned
+
+and the password for the next level is then obtained.
+
+
+
+
+Lvl. 5 -> 6:
+---------------
+In this level one is asked for a secret. There is a link to viewing the source code. Looking at the source code for the site is seems to be revealed that the secret comes from some file at the location
+
+    includes/secret.inc
+
+because the source code seems to compare the secret that is typed in with the secret varable that comes from this file. So typing
+
+    view-source:http://natas6.natas.labs.overthewire.org/includes/secret.inc
+
+into the URL bar, one gets taken to a different site. The source code for this site reads
+
+    <?
+    $secret = "FOEIUWGHFEEUHOFUOIU";
+    ?>
+
+Putting this secret into the prompt and hitting the "submit query"-button, one gets
+
+    Access granted. The password for natas7 is bmg8SvU1LizuWjx3y7xkNERkHxGre0GS
+
+and the password for the next level is thus obtained.
+
+
+
+
+Lvl. 6 -> 7:
+---------------
+This website just shows 2 hyperlinks. One has "Home" as a text and leads to the home page, the other has "About" as a text and leads to the about page. The source code has a hint hidden in a comment:
+
+    hint: password for webuser natas8 is in /etc/natas_webpass/natas8
+
+When clicking the "Home"-button one gets taken to
+
+    http://natas7.natas.labs.overthewire.org/index.php?page=home
+
+so going to
+
+    http://natas7.natas.labs.overthewire.org/index.php?page=/etc/natas_webpass/natas8
+
+leads to a page, where the password for the next level is printed out as
+
+    xcoXLmzMkoIP9D7hlgPlh9XD7OgLAe5Q
+
+because the site is tricked into including the wrong file.
+
+
+
+
+Lvl. 7 -> 8:
+---------------
+Again there is a prompt for some secret alongside a button to view the source code of the page.
+The source code reveals a script that stores the encoded secret as well as the way to encode it. The encoded secret is
+
+    3d3d516343746d4d6d6c315669563362
+
+and the function used to encode it is
+
+    function encodeSecret($secret) {
+    return bin2hex(strrev(base64_encode($secret)));
+    }.
+
+It can be seen that the secret is first encoded in base64, before being reversed and then converted from binary to hexademical. So the idea here is that one would take the encoded secret, convert it from hex to binary, reverse it and decode it from base64.
+I made a script in PHP that does this. It is called "natas8.php". Running this gives
+
+    oubWYf2kBq
+
+which is then the secret. It works and after entering it into the prompt and submitting it, one gets back
+
+    Access granted. The password for natas9 is ZE1ck82lmdGIoErlhQgWND6j2Wzz6b6t
+
+from which the password for the next level can be read.
+
+
+
+
+Lvl. 8 -> 9:
+---------------
+Okay so this time, one can search for words containing some substring apparently. After searching for it, a lot of words containing said substring is printed. Again there is a hyperlink to the source code. Apparently the site takes whatever is entered and calls it by the variable name "$key" and searched for lines in a file called "dictionary.txt" for the key, using
+
+    passthru("grep -i $key dictionary.txt");
+
+grep prints the lines of a text file, that has a substring that matches the pattern given to it. The "-i" flag simply tells it to ignore casing. It seems unlikely that the "dictionary.txt" would hold the password, as it is a dictionary. It is however known, that the password is in the file "/etc/natas_webpass/natas10". So all that is needed is an injection into the passthru command and thus writing
+
+    ; cat /etc/natas_webpass/natas10
+
+prints out all of the contents of "dictionary.txt", but prepended by a line containing the contents of "/etc/natas_webpass/natas10", which seems to be
+
+    t7I5VHvpa14sJTUGV0cbEsbYfFP2dmOu
+
+and the password for the next level is then obtained.
+
+
+
+
+Lvl. 9 -> 10:
+----------------
+Same thing again, except this time the website states that strings containing certain characters are filtered. True enough, issuing the same string again yields
+
+    Input contains an illegal character!
+
+and looking at the source code indeed reveals that some string will be filtered
+
+    if(preg_match('/[;|&]/',$key)) {
+        print "Input contains an illegal character!";
+    } ...
+
+but grep can also search several different input files. So inputting
+
+    a /etc/natas_webpass/natas11
+
+searches both /etc/natas_webpass/natas11 and dictionary.txt for the pattern "a". Unfortunately, this gives nothing. This must be because "a" is not part of the /etc/natas_webpass/natas11. Inputting
+
+    u /etc/natas_webpass/natas11
+
+however makes the first line of the output read
+
+    /etc/natas_webpass/natas11:UJdqkK1pTu6VLt9UHWAgRZz6sVUZ3lEk
+
+from which the password for natas11 can be determined as
+
+    UJdqkK1pTu6VLt9UHWAgRZz6sVUZ3lEk
+
+
+
+
+Lvl. 10 -> 11:
+-----------------
+
