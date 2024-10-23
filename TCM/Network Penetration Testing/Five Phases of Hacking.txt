@@ -1,0 +1,45 @@
+Phase 1: Reconnaissance
+---------------------------
+
+Passive:
+-----------
+Passive information gathering is when information is gathered without involving the target itself. E.g. finding stuff on a search engine or social media, etc.
+This does not involve scanning or any other sort of interaction with the target itself.
+This is essentially OSINT (Open Source INTelligence gathering).
+
+Active:
+----------
+Active information gathering involves interaction with the target, e.g. scanning, probing, etc. This is related a lot to phase 2.
+
+
+
+
+Phase 2: Scanning & Enumeration
+----------------------------------
+Once phase 1 is completed, scanning and enumeration can be done using a variety of programs, such as Nmap, Nessus, Nikto, Metasploit, etc.
+Enumeration can not be understated at all. A lot of hacking is just enumeration.
+
+
+
+
+Phase 3: Gaining Access
+--------------------------
+Access is usually gained through some sort of exploit or social engineering.
+Which exploit can be utilized depends on the results of phase 2 (you can't use an exploit for a service, if that service is not running on the target).
+
+
+
+
+Phase 4: Maintaining Access
+------------------------------
+Once access to the target is attained, the access has to be maintained. This makes sure that the attack can be fully developed.
+Some of the things to consider here is; what happens if a system is rebooted? How does one make sure not to get detected, in order to not be kicked off the system? And lots more...
+
+
+
+
+Phase 5: Covering Tracks
+---------------------------
+There is a lot of tools that can be used to cover one's tracks, such that forensics will not later be able to see what has been done to a system.
+In general, one does not want to leave things behind (such as malware, etc.).
+For pentesting this step is not as important, but for hacking in general it is worth noting.
