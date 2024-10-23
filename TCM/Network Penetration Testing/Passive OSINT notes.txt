@@ -18,10 +18,10 @@ Job information pertains to information about employees. This involves
 
 Web/Host
 -----------
-Target validation verifies, that a target is indeed owned by the one that an attack is performed against. This cna be done using WHOIS, nslookup, dnsrecon, etc.
+Target validation verifies, that a target is indeed owned by the one that an attack is performed against. This can be done using WHOIS, nslookup, dnsrecon, etc.
 
-Finding subdomains of a target can be done using simple Google-fu or tools like dig, Nmap, Sublist3r, Bluto, crt.sh, etc.
+Finding subdomains of a target can be done using simple Google-fu or tools like dig, Nmap, Sublist3r, Bluto, crt.sh, theHarvester, NetCraft etc.
 
-Fingerprinting goes more into the active part of recon. There are different tools that can be used to do this, such as Nmap, Wappalyzer, WhatWeb, BuiltWith, NetCat, etc.
+Fingerprinting is more related to the active part of recon, but parts of it is still passive. There are different tools that can be used to do this, such as Nmap, Wappalyzer, WhatWeb, BuiltWith, NetCat, etc.
 
 Databraches can be explored in order to potentially find credentials for a target. HaveIBeenPwned and similar lists are useful for this.
