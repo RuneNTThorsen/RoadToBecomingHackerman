@@ -1,5 +1,5 @@
 
-#!/bin/bash
+#!/bin/zsh
 
 if [ "$1" = "" ]
 then

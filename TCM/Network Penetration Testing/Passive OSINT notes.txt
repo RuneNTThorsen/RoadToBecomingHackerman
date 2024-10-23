@@ -1,1 +1,27 @@
- 
+Physical/social
+------------------
+For physical/social passive recon, there are 2 subcategories. One is Location information and one is job information.
+Both of these are closely related to social engineering and a lot of all of this information can be found using social media, Google Maps, etc.
+
+Location information pertains to information about a physical location. Information gathering about a physical location can involve
+- satellite images
+- drone recon
+- building layout (including badge readers, break areas, physical security measures, fencing, etc.)
+
+Job information pertains to information about employees. This involves
+- Who are the employees? (name, job, title, phone number, manager, etc.)
+- picures (badge photos, desk photos, computer photos, etc.)
+
+
+
+
+
+Web/Host
+-----------
+Target validation verifies, that a target is indeed owned by the one that an attack is performed against. This cna be done using WHOIS, nslookup, dnsrecon, etc.
+
+Finding subdomains of a target can be done using simple Google-fu or tools like dig, Nmap, Sublist3r, Bluto, crt.sh, etc.
+
+Fingerprinting goes more into the active part of recon. There are different tools that can be used to do this, such as Nmap, Wappalyzer, WhatWeb, BuiltWith, NetCat, etc.
+
+Databraches can be explored in order to potentially find credentials for a target. HaveIBeenPwned and similar lists are useful for this.
