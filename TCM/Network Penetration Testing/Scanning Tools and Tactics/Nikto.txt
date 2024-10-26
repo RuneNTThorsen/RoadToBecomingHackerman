@@ -1,0 +1,9 @@
+Nikto is a web server scanner.
+
+Doing
+
+    $ nikto -h <URL>
+
+runs a nikto scan against the host of the URL (the "-h" flag is used to specify the host).
+
+The default scan gives the target IP, the target hostname, the target port, some SSL info (including ciphers, certificate issuer, etc.), information about headers and information about potential vulnerabilities.

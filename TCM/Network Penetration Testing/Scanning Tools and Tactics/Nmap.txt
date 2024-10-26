@@ -1,0 +1,49 @@
+The most common scanning tool is most likely going to be Nmap (Network mapper).
+It is used to scan one or more IP-addresses and it can scan ports on the machines with those addresses in order to discover running network services. It can find versions of those services as well as a stealth scanning, only giving which ports are being listened on, and lots of other things.
+
+The faster type of scan one chooses to do, the more likely it is that something is missed, since a faster scan is only faster, because it does less.
+
+
+    $ nmap -T4 <IP-address>
+
+is usually used for a rather fast scan (The "-T4" flag sets the timing template in Nmap and it ranges from T0 to T5, with higher having the assumption that one is on a faster network) of the TCP ports on a target. It displays which ports it could establish a connection to along with the protocol that uses that port, the state of the ports and which service uses that port. In addition this rather simple way to use Nmap only scans the top 1000 ports.
+
+
+    $ nmap -T4 -A -p- <IP-address>
+
+does the same as before, but the "-A" flag does OS detection, version detection, script scanning and traceroute. The "-p" flag is the flag used to specify which port(s) to scan, but appending a dash as in above ("-p-") makes sure that all ports are scanned.
+
+
+In order to improve in terms of speed, one could utilize staging. This involves leaving out parts of the full scan in the first preliminary scan, such as
+
+    $ nmap -T4 -p- <IP-address>
+
+and thereby finding the ports that are of interest. After that one can then include a more thorough scan on only the relevant ports with
+
+    $ nmap -T4 -A -p<List of ports> <IP-address>
+
+which then finds all of the relevant information.
+There are many ways to do staging. Essentially they all involve chaining things and can be made into scripts.
+
+
+Using the up-arrow on the keyboard gives a status update when Nmap is running a scan. There are also flags to give a verbose output and ones to give regular updates at some interval.
+
+
+UDP scanning using Nmap is slow and can not necessarily be trusted.
+UDP scanning is done using
+
+    $ nmap -sU <IP-address>
+
+and can be combined with all sorts of different flags, just as a normal TCP scan can.
+Doing a UDP scan is a good idea especially for more advanced stuff, also including HTB, OSCP, etc.
+
+
+In /usr/share/nmap/scripts there are a lot of script that is available to the user of Nmap. Some of these also include scanning for specific vulnerabilities and enumeration. To use a specific script against a specific machine, one would use the command
+
+    $ nmap --script=<script name>.
+
+One very useful one, that is good for reporting, especially also when testing websites is
+
+    $ nmap -p 443 --script=ssl-enum-ciphers <website or IP-address>
+
+which finds the ciphers supported by a webserver along with a rating for each and it gives the rating for the key of least strength used in a cipher on the webserver.

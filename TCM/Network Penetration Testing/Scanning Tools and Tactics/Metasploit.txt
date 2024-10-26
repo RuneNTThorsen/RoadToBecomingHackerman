@@ -1,0 +1,42 @@
+In order to open up Metasploit, one has to use the
+
+    $ msfconsole
+
+command.
+
+Metasploit has a lot of different features. There are 6 general module types:
+- exploits
+- auxiliary
+- post exploit
+- payloads
+- encoders
+- nops
+- evasion
+
+Auxiliary is used for beforehand work, such as enumeration and scanning.
+Exploits is exactly what it sounds like - exploit modules.
+Post exploit are things that can be used, once a session is established.
+
+
+
+One can use
+
+    > search <search string>
+
+to search for a modeule related to the given search string. In order to use a found module, one would do
+
+    > use <module>
+
+and then information about the given module can be accessed using
+
+    > info
+
+and
+
+    > options
+
+gives a list of options for the module. It also tells whether or not an option is set, needs to be set and which are required to be set. In order to set an option, one would do
+
+    > set <option> <what the option should be set to>
+
+but remember that it is a good idea to keep in mind if the option has a plural "s" or not. In the case of a plural "s", the option can usually hold a list or a range.

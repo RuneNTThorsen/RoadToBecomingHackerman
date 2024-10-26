@@ -1,0 +1,15 @@
+Burp Suite has a free Community Edition and a paid Professional Edition. Scanning is not enable in the free version.
+
+For scanning, one interesting thing about Burp Suite is the ability to intercept traffic.
+To do this, the web browser needs to be configured to use localhost as a network proxy.
+In firefox this can be done by accessing the network setting and manually configuring a proxy on 127.0.0.1 on port 8080 and checking that proxy to be used for all protocols.
+Once that is done, intercept can be turned on in Burp Suite under the tab "Proxy" and the subtab "Intercept". This will intercept all requests etc. between the computer and the website. Once a message is intercepted it can be forwarded, but it can also be altered before it is forwarded.
+
+Once interception to a site has been done, the "Site Map" under the "Target" tab will list all of the URLs that are being accessed. Right clicking on one of them lets one add a specific URL to scope.
+After this it can be useful to filter only in-scope items.
+The "Site Map" will show a tree of content of the target application (website or whatever). This means that it does passive spidering by default.
+To do active spidering, one needs to right click the target URL and hit "Scan", which scans the target and does the spidering of the result(s).
+
+In order to add more targets to the scope, one can go into the subtab "Scope" and add them there. Scopes are added using a prefix (so all subfolders of the target will automatically be in scope).
+
+When doing a scan a lot of things can be configured about the scan, in the popup that comes up, when initiating a scan. Too much to go into here. The important thing is that it can give information about the target (such as the contents of robots.txt, etc.).

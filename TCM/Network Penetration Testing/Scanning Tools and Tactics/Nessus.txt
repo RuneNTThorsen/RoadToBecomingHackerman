@@ -1,0 +1,41 @@
+Nessus essentials is free, but the full version is not.
+
+On my computer I have to start Nessus using
+
+    $ systemctl start nessusd.service
+
+and as usual it can be started automatically with
+
+    $ systemctl enable nessusd.service
+
+in order to make it start automatically every time the computer boots. The tool itself is then accessed in a web browser at the address
+
+    https://ion.8834/
+
+from which it can also be configured. It requires one to set up a user with a password. Initially it greeted me with the following very informative message:
+
+    Welcome to Nessus Essentials
+
+    To get started, launch a host discovery scan to identify what hosts on your network are available to scan. Hosts that are discovered through a discovery scan do not count towards the 16 host limit on your license.
+
+    Enter targets as hostnames, IPv4 addresses, or IPv6 addresses. For IP addresses, you can use CIDR notation (e.g., 192.168.0.0/24), a range (e.g., 192.168.0.1-192.168.0.255), or a comma-separated list (e.g., 192.168.0.0, 192.168.0.1).
+
+Notice that there is a limit of 16 to how many hosts can be scanned using the free license. Additionally there are some tools that are also reserved for the full (paid) version.
+
+
+Clicking the "New Scan" button brings up a list of tools that can be used to do the scanning. Those that are unavailable are listed as so.
+
+Most of the time, the "Basic Network Scan" is enough, but diving into the "Advanced Scan" can be fruitful.
+
+
+The basic network scan even allows one to set credentials and scan for plugins etc.
+Typically credentials will not be submitted in the context of pentesting.
+When doing a basic network scan, a name can be given to the scan as well as a description and a folder to store the results in. The targets are simply a comma separated list, which can be IP-addresses or URLs. Furthermore such a scan can be scheduled and (e-mail) notifications can be set up, although that requires SMTP to be set up.
+Under the "Discovery" tab, the type of scan (with respect to ports) can be chosen. Usually this is set to either the common ports or all ports, although this can be customized. By default this is very loud.
+Under the "Assessment" tab, a scan type that specifies what is being scanned for is chosen. In the context of pentesting, using the default option is usually perfectly fine. For red teaming, one might want to change this though.
+As for the reporting, leaving everything default should be fine, unless one really needs to see stuff that is typically not shown.
+For the advanced tab it should also be fine to just leave everything default.
+
+Once everything is set up, the scan can be saved and it will be displayed on the front page of Nessus from which it can be launched.
+
+When a scan is done, it gives a list of potential vulnerabilities and a lot of other info.

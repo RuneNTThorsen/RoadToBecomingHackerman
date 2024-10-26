@@ -1,0 +1,24 @@
+When doing port scanning, usually one would scan using TCP, but it would be advantageous to also scan using UDP, since there are some protocols etc. that only run on UDP.
+
+
+
+TCP is connection-oriented (meaning that it is primarily used for establishing connections).
+TCP has a 3-way handshake.
+TCP is primarily used for applications that require high reliability.
+A lot of protocols that runs using it, such as HTTP, Telnet, FTP, etc.
+
+Usually when a 3-way handshake is done, the party (A) that want to establish a conection, sends a SYN (synchronization) packet to the other party (B).
+The other party (B) responds with a SYN + ACK (acknowledgement) package.
+Finally A sends an ACK package back and the connection is then established.
+
+When doing stealth scanning, A sends a SYN packet.
+B responds with SYN + ACK.
+A then sends a RST (reset) package and thus terminates the session and thereby also interrupts the connection establishement.
+
+The stealthy way of scanning is most likely not stealthy any more, but used to be.
+
+
+
+UDP is connectionless (meaning that it does not establish a lasting connection).
+UDP does not have a handshake.
+It is usually used for things that requires a fast connection, such as DNS, DHCP, SNMP, etc.
