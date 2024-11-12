@@ -1,0 +1,22 @@
+Hackers generally follow a specific path (kill chain) for their attacks.
+
+1. Reconnaissance
+    Information gathering (OSINT, scanning, etc.).
+
+2. Weaponization
+    Using the information to develop malicious code, malware or exploit some vulnerability.
+
+3. Delivery
+    Can involve phishing or spam, malicious links as well as a USB drive (or a so-called drop attack (an attack, where USB drives are simply dropped all around and the hope is that someone will plug it in)).
+
+4. Exploitation
+    In this step the goal is to make the target run an application or a program. This can involve hijacking processes and making the user click on something.
+
+5. Installation
+    This involves installing some application/program/process that is malicious. It can also involve making the machine do planned tasks as well as establishing backdoors. This is also where persistency comes into the picture (making sure that a backdoor keeps being open even after restarting the machine or something else that has the potential to reset the machine).
+
+6. Command & Control
+    This step involves using the previous steps in order to gain control over a target. This is also the stage at which botnets being annoying or disrupting comes into play.
+
+7. Actions on Objective
+    This is where the final goal of a cyberattack is finally achieved.

@@ -1,0 +1,43 @@
+SOC - Security Operation Center.
+    This is a place where security operations are managed from. A lot of the work being done here is handling incident reports.
+
+OSINT - Open Source INTelligence.
+    Information that is available through sources that are available to anyone.
+
+
+CIA - Confidentiality, Integrity, Availability.
+    All data (and cyber systems) must have the possibility of being confidential and have their integrity not be compromised whilst always being available.
+        Confidentiality involes avoiding leaking data and only sharing it with people that are supposed to have access to it.
+        Integrity has to do with avoiding that data is changed erroneously (can both be done by machines and hackers).
+        Availability has to do with making sure that data is available and services are not interrupted. This is essentially related to having business continuity.
+
+Cyber Security.
+    This involves IT-security as well as information security and risk management. It can also involve business continuity and crisis management.
+
+Prompt Injection.
+    When a user gives a prompt that bypases existing guard rails. Often used in conjunction with - but not limited to - chatbots.
+
+Access Control System.
+    A systematic approach to determining who can read/write specific things. The "who" is usually called a "subject" and the thing that can be controlled by the subject is usually called an "object".
+
+Asset.
+    Something that has value or potential value for an organization.
+        This could be data/information, individual machines (of all sorts and types), software, intellectual property, currency, hardware, people, business functions, services, etc.
+
+Vulnerability.
+    A weakness in an asset or a measurement that can be exploited by a threat actor.
+
+Threat.
+    A potential cause for an unwanted incident, that can result in damages done upon a system or an organization.
+
+Impact.
+    Consequence of an incident. Can be measured in cost, loss of reputation, human lives, data, time, etc.
+
+Risk.
+    Effect of uncertainty on an objective.
+        In general, one could calculate the risc (maybe arbitrarily or just in abstract terms) by: risk = probability * impact.
+        This measure could be altered by having potential mitigations. The risk can also be made more certain through wargames, etc.
+
+Measure/Control.
+    A measure that aims to reduce risc (either through making the probability or the impact lower).
+        These measures can be preventive, detective or corrective.
