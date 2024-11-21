@@ -1,0 +1,19 @@
+Take a look at "Sikkerhedsarkitektur.png". In it there are different types of environments and assets depicted.
+
+One good idea in order to make things more secure is to segment the enterprise network. For instance the AD server could be on a VLAN itself and the clients can be on a VLAN itself, etc.
+For that matter a firewall could also be set up in between different segments, though this is maybe not always feasible in practice, since different parts of the network might be connected to the same physical network devices.
+
+LAN stands for Local Area Network. VLAN stands for Virtual LAN.
+
+An AD (Active Directory) server controls who can access what. This can be done through role-base access control (RBAC) or conditional based access control (CBAC).
+
+It makes sense to make a firewall between the enterprise network and the surrounding world.
+
+It makes sense to require further authentication outside of the enterprise network and for that matter this can be escalated further when it is an unknown/untrusted network outside of the enterprise network (with for example requiring VPN and/or multi-factor authentication (MFA)).
+
+
+CIS has made a document of controls that can be used to categorize companies and find specific controls they should live up to, given the control group that they are in. It is not the only one of such document. Another example could be ISO 27001, etc.
+
+CIS has also made a Control Self Assessment Tool that can be used to ease the assessment of a company in relation to the controls
+
+CIS has also made some benchmarks that are specific to different types of assets, that specify how to harden a specific asset.
