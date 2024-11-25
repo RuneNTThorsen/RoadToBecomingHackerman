@@ -366,5 +366,5 @@ Lvl. 14 -> 15:
 This time there is a box to check whether or not a user exists and a hyperlink to check the source code.
 Again a MySQL database is used and the input is not sanitised, so an SQL injection should be possible again.
 One can quickly check that the user "natas16" indeed exists, as was almost expected.
-Additionally the source code reveals the structure of the "users" table as with entries only having 2 "varchar(64)" fields named "username" and "password".
+Additionally the source code reveals the structure of the "users" table as with entries only having 2 "varchar(64)" attributes named "username" and "password".
 It would also seem that there is no way to make the site print out the password.
