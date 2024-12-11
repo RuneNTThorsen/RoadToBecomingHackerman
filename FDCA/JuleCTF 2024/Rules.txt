@@ -1,0 +1,14 @@
+1. FDCA JuleCTF takes place on the website: jul.fdca.dk
+    (also julectf.fdca.dk)
+2. The challenges are posted once a day at 08:00 AM every day of December
+3. The CTF starts the 1'st of December and ends on the 24'th of December at 16:00. The challenges will be available a few days after that, but points will be frozen.
+4. A flag always starts with "FDCA{", and ends with "}". For example FDCA{D3t7e_eR_3t_F14g}
+5. All participants must register using a username, e-mail and password. A person's mail has to be verified using the activation mail sned to the address and the link in the mail has to be used before the user is activated.
+6. Only one user is allowed. If one participates with more than one user, one risks having one's user deleted without a warning.
+7. Some files are downloaded from Google Drive. Do not attack Google, no flags are there.
+8. Each challenge gives 1000 points.
+9. There are 3 hints for each challenge. Using a hint costs 100 points.
+10. Avoid flag hoarding.
+11. The winner is the one with most points at the end. The fastest one in the case of a tie.
+12. There is a prize for the first, second and third place. The same applies to best write-ups.
+13. If you use a temp/burner e-mail account, you will not be able to win. We need your name and address for the prize anyway.
