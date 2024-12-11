@@ -1,0 +1,4 @@
+Look at the source code in nissensnak.html.
+It seems that the website reverses whatever is entered and checks it against a reversed form of the flag. The reversed form of the flag is found on line 18. It is
+
+	nc3{bagvendt_nissesnak}

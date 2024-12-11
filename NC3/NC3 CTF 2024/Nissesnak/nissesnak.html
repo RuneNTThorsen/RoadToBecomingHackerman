@@ -1,0 +1,34 @@
+<!DOCTYPE html />
+<meta charset="UTF-8">
+<html>
+<body>
+
+<h1>Nissesnak - NC3CTF2o24</h1>
+
+<script>
+	function ReverseString(input)
+	{
+		return input.split('').reverse().join('');
+	}
+
+	function OnClick()
+	{
+		var flagValue = document.getElementById("flagInput").value;
+
+		if (ReverseString(flagValue) == '}kansessin_tdnevgab{3cn')
+		{
+			alert('Du fandt flaget');
+		}
+		else
+		{
+			alert('Prøv igen');
+		}
+	}
+</script>
+
+
+Indtast flaget: <input type="text" id="flagInput"/>
+<input type="button" onclick="OnClick();" value="Afprøv"/>
+
+</body>
+</html>
