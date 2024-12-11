@@ -1,0 +1,4 @@
+This challenge can most likely be solved using frequency analysis.
+
+I did not do this however. Instead I simply recognized the format of the flag and guessed that a simple substitution cipher was used and started out by exchanging the relevant symbols for the known letters ('n' and 'c'). From here on out I used my knowledge of the danish language to make educated guesses at what words there were and thus also their letters and do a manual substitution on these throughout the text.
+
